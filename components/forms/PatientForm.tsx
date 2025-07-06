@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { Input } from "../ui/input";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -50,7 +51,7 @@ const PatientForm = () => {
                   <span className="absolute left-3 top-1/2 -translate-y-1/2">
                     <Image src="/assets/icons/user.svg" alt="user" width={20} height={20} />
                   </span>
-                  <input
+                  <Input
                     {...field}
                     className="w-full rounded-md border border-[#363A3D] px-10 py-2 text-white bg-transparent"
                     placeholder="Adrian Hajdin"
@@ -72,7 +73,7 @@ const PatientForm = () => {
                   <span className="absolute left-3 top-1/2 -translate-y-1/2">
                     <Image src="/assets/icons/email.svg" alt="email" width={20} height={20} />
                   </span>
-                  <input
+                  <Input
                     {...field}
                     className="w-full rounded-md border border-[#363A3D] px-10 py-2 text-white bg-transparent"
                     placeholder="user@gmail.com"
@@ -94,7 +95,7 @@ const PatientForm = () => {
                   <span className="absolute left-3 top-1/2 -translate-y-1/2">
                     <Image src="/assets/icons/user.svg" alt="phone" width={20} height={20} />
                   </span>
-                  <input
+                  <Input
                     {...field}
                     className="w-full rounded-md border border-[#363A3D] px-10 py-2 text-white bg-transparent"
                     placeholder="+00 0342 0453 34"
