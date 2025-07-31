@@ -17,10 +17,6 @@ export default function Onboarding() {
               />
               <span className="text-2xl font-bold">DoctorKhuji</span>
             </div>
-            <h2 className="text-3xl font-bold mb-2">Hi there, ....</h2>
-            <p className="text-[#ABB8C4] mb-8">
-              Get Started with Appointments.
-            </p>
             <PatientForm />
           </div>
           <div className="mt-8 text-xs text-gray-500">
