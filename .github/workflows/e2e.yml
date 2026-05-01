@@ -36,8 +36,13 @@ jobs:
       - name: Generate Prisma client
         run: npx prisma generate
 
+      - name: Build app
+        run: npm run build
+
       - name: Run E2E tests
         run: npm run test:e2e
+        env:
+          NEXTAUTH_URL: http://localhost:3000
 
       - name: Upload test report on failure
         if: failure()
