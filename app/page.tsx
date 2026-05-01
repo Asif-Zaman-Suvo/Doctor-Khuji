@@ -15,6 +15,11 @@ import {
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { MobileMenu } from "@/components/ui/mobile-menu";
 import { prisma } from "@/lib/db";
+import type { Prisma } from "@/lib/generated/prisma/client";
+
+type DoctorWithProfile = Prisma.UserGetPayload<{
+  include: { doctorProfile: { select: { specialty: true; avgRating: true } } };
+}>;
 
 const features = [
   {
@@ -53,7 +58,7 @@ const steps = [
 ];
 
 export default async function HomePage() {
-  let doctors: Awaited<ReturnType<typeof prisma.user.findMany>> = [];
+  let doctors: DoctorWithProfile[] = [];
   try {
     doctors = await prisma.user.findMany({
       where: { role: "DOCTOR", doctorProfile: { isApproved: true } },
