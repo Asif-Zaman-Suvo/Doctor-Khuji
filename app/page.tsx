@@ -53,12 +53,17 @@ const steps = [
 ];
 
 export default async function HomePage() {
-  const doctors = await prisma.user.findMany({
-    where: { role: "DOCTOR", doctorProfile: { isApproved: true } },
-    include: { doctorProfile: { select: { specialty: true, avgRating: true } } },
-    orderBy: { createdAt: "asc" },
-    take: 4,
-  });
+  let doctors: Awaited<ReturnType<typeof prisma.user.findMany>> = [];
+  try {
+    doctors = await prisma.user.findMany({
+      where: { role: "DOCTOR", doctorProfile: { isApproved: true } },
+      include: { doctorProfile: { select: { specialty: true, avgRating: true } } },
+      orderBy: { createdAt: "asc" },
+      take: 4,
+    });
+  } catch {
+    // DB unavailable (e.g. CI/build environment) — render empty state
+  }
 
   return (
     <div className="min-h-screen bg-app-bg text-app-text">
