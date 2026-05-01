@@ -69,7 +69,7 @@ export default function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1" data-testid="login-form">
         <section className="mb-10 space-y-3">
           <h1 className="header">Welcome back 👋</h1>
           <p className="text-dark-700">Sign in to your DoctorKhuji account.</p>
@@ -100,6 +100,7 @@ export default function LoginForm() {
                     {...field}
                     type="email"
                     placeholder="john@example.com"
+                    data-testid="login-email"
                     className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none"
                   />
                 </div>
@@ -128,6 +129,7 @@ export default function LoginForm() {
                     {...field}
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
+                    data-testid="login-password"
                     className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none flex-1"
                   />
                   <button
@@ -145,7 +147,7 @@ export default function LoginForm() {
         />
 
         {error && (
-          <p className="rounded-md bg-red-500/10 border border-red-500/30 px-4 py-3 text-sm text-red-400 text-center">
+          <p data-testid="login-error" className="rounded-md bg-red-500/10 border border-red-500/30 px-4 py-3 text-sm text-red-400 text-center">
             {error}
           </p>
         )}
@@ -153,6 +155,7 @@ export default function LoginForm() {
         <Button
           type="submit"
           disabled={loading}
+          data-testid="login-submit"
           className="w-full bg-[#24AE7C] hover:bg-[#1d9268] text-white font-semibold py-5 cursor-pointer transition-colors"
         >
           {loading ? "Signing in..." : "Sign In"}

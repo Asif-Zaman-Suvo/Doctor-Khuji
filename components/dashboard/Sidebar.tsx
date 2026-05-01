@@ -111,6 +111,7 @@ export default function Sidebar({ role, name, email }: SidebarProps) {
         <ThemeToggle />
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
+          data-testid="sidebar-signout"
           className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-app-muted hover:bg-red-500/10 hover:text-red-400 transition-all cursor-pointer"
         >
           <LogOut size={18} />

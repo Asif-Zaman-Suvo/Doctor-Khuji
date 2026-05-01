@@ -71,7 +71,7 @@ export default function RegisterForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 flex-1">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 flex-1" data-testid="register-form">
         <section className="mb-8 space-y-3">
           <h1 className="header">Create your account</h1>
           <p className="text-dark-700">Join DoctorKhuji as a patient or doctor.</p>
@@ -90,6 +90,7 @@ export default function RegisterForm() {
                     <button
                       key={role}
                       type="button"
+                      data-testid={`role-${role.toLowerCase()}`}
                       onClick={() => field.onChange(role)}
                       className={`flex items-center gap-3 rounded-xl border-2 px-4 py-3 transition-all cursor-pointer font-medium ${
                         selectedRole === role
@@ -124,7 +125,7 @@ export default function RegisterForm() {
               <FormControl>
                 <div className="flex items-center rounded-xl border border-app-border-2 bg-app-surface-2 input-wrapper">
                   <Image src="/assets/icons/user.svg" alt="user" width={20} height={20} className="ml-3 shrink-0" />
-                  <Input {...field} placeholder="John Doe" className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none" />
+                  <Input {...field} placeholder="John Doe" data-testid="register-name" className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none" />
                 </div>
               </FormControl>
               <FormMessage className="text-red-400 text-sm" />
@@ -142,7 +143,7 @@ export default function RegisterForm() {
               <FormControl>
                 <div className="flex items-center rounded-xl border border-app-border-2 bg-app-surface-2 input-wrapper">
                   <Image src="/assets/icons/email.svg" alt="email" width={20} height={20} className="ml-3 shrink-0" />
-                  <Input {...field} type="email" placeholder="john@example.com" className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none" />
+                  <Input {...field} type="email" placeholder="john@example.com" data-testid="register-email" className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none" />
                 </div>
               </FormControl>
               <FormMessage className="text-red-400 text-sm" />
@@ -160,7 +161,7 @@ export default function RegisterForm() {
               <FormControl>
                 <div className="flex items-center rounded-xl border border-app-border-2 bg-app-surface-2 input-wrapper pr-3">
                   <Image src="/assets/icons/user.svg" alt="lock" width={20} height={20} className="ml-3 shrink-0" />
-                  <Input {...field} type={showPassword ? "text" : "password"} placeholder="Min. 8 characters" className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none flex-1" />
+                  <Input {...field} type={showPassword ? "text" : "password"} placeholder="Min. 8 characters" data-testid="register-password" className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none flex-1" />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-app-muted hover:text-app-text transition-colors">
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
@@ -181,7 +182,7 @@ export default function RegisterForm() {
               <FormControl>
                 <div className="flex items-center rounded-xl border border-app-border-2 bg-app-surface-2 input-wrapper pr-3">
                   <Image src="/assets/icons/user.svg" alt="lock" width={20} height={20} className="ml-3 shrink-0" />
-                  <Input {...field} type={showConfirm ? "text" : "password"} placeholder="Re-enter password" className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none flex-1" />
+                  <Input {...field} type={showConfirm ? "text" : "password"} placeholder="Re-enter password" data-testid="register-confirm-password" className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none flex-1" />
                   <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="text-app-muted hover:text-app-text transition-colors">
                     {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
@@ -193,7 +194,7 @@ export default function RegisterForm() {
         />
 
         {error && (
-          <p className="rounded-md bg-red-500/10 border border-red-500/30 px-4 py-3 text-sm text-red-400 text-center">
+          <p data-testid="register-error" className="rounded-md bg-red-500/10 border border-red-500/30 px-4 py-3 text-sm text-red-400 text-center">
             {error}
           </p>
         )}
@@ -201,6 +202,7 @@ export default function RegisterForm() {
         <Button
           type="submit"
           disabled={loading}
+          data-testid="register-submit"
           className="w-full bg-[#24AE7C] hover:bg-[#1d9268] text-white font-semibold py-5 cursor-pointer transition-colors"
         >
           {loading ? "Creating account..." : "Create Account"}
