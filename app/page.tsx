@@ -13,6 +13,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { MobileMenu } from "@/components/ui/mobile-menu";
 import { prisma } from "@/lib/db";
 
 const features = [
@@ -64,7 +65,7 @@ export default async function HomePage() {
 
       {/* ── Navbar ── */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-app-bg/90 backdrop-blur-md border-b border-app-border">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between relative">
           <div className="flex items-center gap-2.5">
             <Image src="/assets/icons/logo-icon.svg" alt="logo" width={34} height={34} />
             <span className="text-lg font-bold text-app-text">DoctorKhuji</span>
@@ -74,58 +75,59 @@ export default async function HomePage() {
             <a href="#doctors" className="hover:text-app-text transition-colors">Doctors</a>
             <a href="#how-it-works" className="hover:text-app-text transition-colors">How it works</a>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <ThemeToggle iconOnly />
-            <Link href="/login" className="text-sm text-app-muted hover:text-app-text transition-colors px-4 py-2">
+            <Link href="/login" className="hidden md:block text-sm text-app-muted hover:text-app-text transition-colors px-4 py-2">
               Sign In
             </Link>
             <Link
               href="/register"
-              className="text-sm bg-[#24AE7C] hover:bg-[#1d9268] text-white font-semibold px-5 py-2 rounded-xl transition-colors"
+              className="hidden md:block text-sm bg-[#24AE7C] hover:bg-[#1d9268] text-white font-semibold px-5 py-2 rounded-xl transition-colors"
             >
               Get Started
             </Link>
+            <MobileMenu />
           </div>
         </div>
       </nav>
 
       {/* ── Hero ── */}
-      <section className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8">
+      <section className="pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+          <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 bg-[#24AE7C]/10 border border-[#24AE7C]/30 rounded-full px-4 py-2 text-sm text-[#24AE7C] font-medium">
               <span className="w-2 h-2 rounded-full bg-[#24AE7C] animate-pulse" />
               Trusted by 10,000+ patients
             </div>
-            <h1 className="text-5xl lg:text-6xl font-bold leading-tight text-app-text">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight text-app-text">
               Your Health,{" "}
               <span className="text-[#24AE7C]">Our Priority</span>
             </h1>
-            <p className="text-app-muted text-lg leading-relaxed max-w-lg">
+            <p className="text-app-muted text-base sm:text-lg leading-relaxed max-w-lg mx-auto lg:mx-0">
               Connect with verified doctors, book appointments instantly, and
               manage your health records — all in one place.
             </p>
-            <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center justify-center lg:justify-start gap-3 sm:gap-4 flex-wrap">
               <Link
                 href="/register"
-                className="flex items-center gap-2 bg-[#24AE7C] hover:bg-[#1d9268] text-white font-semibold px-7 py-3.5 rounded-xl transition-colors shadow-lg shadow-[#24AE7C]/20"
+                className="flex items-center gap-2 bg-[#24AE7C] hover:bg-[#1d9268] text-white font-semibold px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl transition-colors shadow-lg shadow-[#24AE7C]/20 text-sm sm:text-base"
               >
                 Book Appointment <ArrowRight size={18} />
               </Link>
               <Link
                 href="/login"
-                className="flex items-center gap-2 border border-app-border-2 hover:border-[#24AE7C]/50 text-app-muted hover:text-app-text font-medium px-7 py-3.5 rounded-xl transition-colors"
+                className="flex items-center gap-2 border border-app-border-2 hover:border-[#24AE7C]/50 text-app-muted hover:text-app-text font-medium px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl transition-colors text-sm sm:text-base"
               >
                 Sign In
               </Link>
             </div>
-            <div className="flex items-center gap-6 pt-2 flex-wrap">
+            <div className="flex items-center justify-center lg:justify-start gap-4 sm:gap-6 pt-2 flex-wrap">
               {[
                 { icon: ShieldCheck, text: "HIPAA Compliant" },
                 { icon: CheckCircle, text: "Verified Doctors" },
                 { icon: Star, text: "4.9/5 Rated" },
               ].map(({ icon: Icon, text }) => (
-                <div key={text} className="flex items-center gap-1.5 text-sm text-app-subtle">
+                <div key={text} className="flex items-center gap-1.5 text-xs sm:text-sm text-app-subtle">
                   <Icon size={15} className="text-[#24AE7C]" />
                   {text}
                 </div>
@@ -177,27 +179,27 @@ export default async function HomePage() {
       </section>
 
       {/* ── Stats ── */}
-      <section className="py-14 border-y border-app-border bg-app-surface">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <section className="py-10 sm:py-14 border-y border-app-border bg-app-surface">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {stats.map((s) => (
             <div key={s.label} className="text-center">
-              <p className="text-4xl font-bold text-[#24AE7C]">{s.value}</p>
-              <p className="text-sm text-app-subtle mt-1">{s.label}</p>
+              <p className="text-3xl sm:text-4xl font-bold text-[#24AE7C]">{s.value}</p>
+              <p className="text-xs sm:text-sm text-app-subtle mt-1">{s.label}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── Features ── */}
-      <section id="features" className="py-24 px-6 max-w-7xl mx-auto">
-        <div className="text-center mb-14 space-y-3">
+      <section id="features" className="py-16 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
+        <div className="text-center mb-10 sm:mb-14 space-y-3">
           <p className="text-sm text-[#24AE7C] font-semibold uppercase tracking-widest">Why DoctorKhuji</p>
-          <h2 className="text-4xl font-bold text-app-text">Everything you need for your health</h2>
-          <p className="text-app-muted max-w-xl mx-auto">
+          <h2 className="text-2xl sm:text-4xl font-bold text-app-text">Everything you need for your health</h2>
+          <p className="text-app-muted text-sm sm:text-base max-w-xl mx-auto">
             From booking to consultation, we make healthcare simple, accessible, and secure.
           </p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {features.map((f) => {
             const Icon = f.icon;
             return (
@@ -217,13 +219,13 @@ export default async function HomePage() {
       </section>
 
       {/* ── How it works ── */}
-      <section id="how-it-works" className="py-24 px-6 bg-app-surface border-y border-app-border">
+      <section id="how-it-works" className="py-16 sm:py-24 px-4 sm:px-6 bg-app-surface border-y border-app-border">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14 space-y-3">
+          <div className="text-center mb-10 sm:mb-14 space-y-3">
             <p className="text-sm text-[#24AE7C] font-semibold uppercase tracking-widest">Simple Process</p>
-            <h2 className="text-4xl font-bold text-app-text">How it works</h2>
+            <h2 className="text-2xl sm:text-4xl font-bold text-app-text">How it works</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-3 gap-8">
             {steps.map((s, i) => (
               <div key={s.step} className="relative flex flex-col gap-4">
                 {i < steps.length - 1 && (
@@ -243,11 +245,11 @@ export default async function HomePage() {
       </section>
 
       {/* ── Doctors ── */}
-      <section id="doctors" className="py-24 px-6 max-w-7xl mx-auto">
-        <div className="text-center mb-14 space-y-3">
+      <section id="doctors" className="py-16 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
+        <div className="text-center mb-10 sm:mb-14 space-y-3">
           <p className="text-sm text-[#24AE7C] font-semibold uppercase tracking-widest">Our Team</p>
-          <h2 className="text-4xl font-bold text-app-text">Meet our top doctors</h2>
-          <p className="text-app-muted max-w-lg mx-auto">
+          <h2 className="text-2xl sm:text-4xl font-bold text-app-text">Meet our top doctors</h2>
+          <p className="text-app-muted text-sm sm:text-base max-w-lg mx-auto">
             Experienced, verified, and ready to help you get the care you deserve.
           </p>
         </div>
@@ -264,7 +266,7 @@ export default async function HomePage() {
                 Approved specialists will appear here shortly.
               </p>
             </div>
-            <div className="flex items-center justify-center gap-6 pt-2 text-sm text-app-subtle">
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-2 text-xs sm:text-sm text-app-subtle">
               <div className="flex items-center gap-2">
                 <ShieldCheck size={16} className="text-[#24AE7C]" />
                 Fully Verified
@@ -338,25 +340,25 @@ export default async function HomePage() {
       </section>
 
       {/* ── CTA Banner ── */}
-      <section className="py-24 px-6 bg-app-surface border-t border-app-border">
-        <div className="max-w-4xl mx-auto bg-gradient-to-br from-[#24AE7C]/15 to-[#24AE7C]/5 border border-[#24AE7C]/20 rounded-3xl p-12 text-center space-y-6">
-          <div className="w-16 h-16 bg-[#24AE7C]/10 rounded-2xl flex items-center justify-center mx-auto border border-[#24AE7C]/20">
-            <Stethoscope size={28} className="text-[#24AE7C]" />
+      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-app-surface border-t border-app-border">
+        <div className="max-w-4xl mx-auto bg-gradient-to-br from-[#24AE7C]/15 to-[#24AE7C]/5 border border-[#24AE7C]/20 rounded-3xl p-8 sm:p-12 text-center space-y-5 sm:space-y-6">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#24AE7C]/10 rounded-2xl flex items-center justify-center mx-auto border border-[#24AE7C]/20">
+            <Stethoscope size={26} className="text-[#24AE7C]" />
           </div>
-          <h2 className="text-4xl font-bold text-app-text">Ready to take control of your health?</h2>
-          <p className="text-app-muted max-w-lg mx-auto">
+          <h2 className="text-2xl sm:text-4xl font-bold text-app-text">Ready to take control of your health?</h2>
+          <p className="text-app-muted text-sm sm:text-base max-w-lg mx-auto">
             Join thousands of patients and doctors already using DoctorKhuji to simplify healthcare.
           </p>
-          <div className="flex items-center justify-center gap-4 flex-wrap">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Link
               href="/register"
-              className="flex items-center gap-2 bg-[#24AE7C] hover:bg-[#1d9268] text-white font-semibold px-8 py-3.5 rounded-xl transition-colors shadow-lg shadow-[#24AE7C]/20"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#24AE7C] hover:bg-[#1d9268] text-white font-semibold px-7 py-3.5 rounded-xl transition-colors shadow-lg shadow-[#24AE7C]/20"
             >
               <Users size={18} /> Join as Patient
             </Link>
             <Link
               href="/register"
-              className="flex items-center gap-2 border border-[#24AE7C]/40 hover:border-[#24AE7C] hover:bg-[#24AE7C]/5 text-[#24AE7C] font-semibold px-8 py-3.5 rounded-xl transition-colors"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 border border-[#24AE7C]/40 hover:border-[#24AE7C] hover:bg-[#24AE7C]/5 text-[#24AE7C] font-semibold px-7 py-3.5 rounded-xl transition-colors"
             >
               <Stethoscope size={18} /> Join as Doctor
             </Link>
@@ -365,8 +367,8 @@ export default async function HomePage() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="border-t border-app-border py-10 px-6 bg-app-bg">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <footer className="border-t border-app-border py-8 sm:py-10 px-4 sm:px-6 bg-app-bg">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <div className="flex items-center gap-2">
             <Image src="/assets/icons/logo-icon.svg" alt="logo" width={28} height={28} />
             <span className="font-bold text-app-text">DoctorKhuji</span>
