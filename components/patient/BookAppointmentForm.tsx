@@ -6,6 +6,12 @@ import { bookAppointment } from "@/app/actions/patient";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock } from "lucide-react";
 import Image from "next/image";
+import {
+  formatAvailableDaysHint,
+  isDateOnAvailableDay,
+  weekdayFromDateInput,
+} from "@/lib/doctor-availability";
+import { DatePicker } from "@/components/ui/date-picker";
 
 interface Doctor {
   id: string;
@@ -35,11 +41,34 @@ export default function BookAppointmentForm({ doctors, preselectedId }: { doctor
 
   const doctor = doctors.find(d => d.id === selectedDoctor);
   const today = new Date().toISOString().split("T")[0];
+  const availableDays = doctor?.doctorProfile?.availableDays ?? [];
+  const hasDayRestriction = availableDays.length > 0;
+  const dateAllowed =
+    !date || !hasDayRestriction || isDateOnAvailableDay(date, availableDays);
+
+  function pickDoctor(docId: string, docAvailable: string[]) {
+    setSelectedDoctor(docId);
+    setError("");
+    setDate((prev) => {
+      if (!prev) return prev;
+      if (docAvailable.length > 0 && !isDateOnAvailableDay(prev, docAvailable)) {
+        return "";
+      }
+      return prev;
+    });
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!selectedDoctor || !date || !timeSlot) {
       setError("Please select a doctor, date, and time slot.");
+      return;
+    }
+    if (hasDayRestriction && !isDateOnAvailableDay(date, availableDays)) {
+      const dayName = weekdayFromDateInput(date);
+      setError(
+        `${dayName} is not an available day. This doctor only sees patients on: ${formatAvailableDaysHint(availableDays)}.`
+      );
       return;
     }
     setLoading(true);
@@ -64,7 +93,7 @@ export default function BookAppointmentForm({ doctors, preselectedId }: { doctor
             <button
               key={doc.id}
               type="button"
-              onClick={() => setSelectedDoctor(doc.id)}
+              onClick={() => pickDoctor(doc.id, doc.doctorProfile?.availableDays ?? [])}
               className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-left cursor-pointer ${
                 selectedDoctor === doc.id
                   ? "border-[#24AE7C] bg-[#24AE7C]/5"
@@ -107,13 +136,32 @@ export default function BookAppointmentForm({ doctors, preselectedId }: { doctor
         <label className="text-sm font-medium text-[#ABB8C4] flex items-center gap-2">
           <CalendarDays size={15} /> Appointment Date
         </label>
-        <input
-          type="date"
-          min={today}
+        <DatePicker
           value={date}
-          onChange={e => setDate(e.target.value)}
-          className="w-full h-11 rounded-xl bg-[#1A1D21] border border-[#363A3D] text-white px-4 text-sm focus:outline-none focus:ring-1 focus:ring-[#24AE7C] [color-scheme:dark]"
+          min={today}
+          hasError={!!(date && hasDayRestriction && !dateAllowed)}
+          disabled={(d) => {
+            if (!hasDayRestriction) return false;
+            const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+            return !isDateOnAvailableDay(iso, availableDays);
+          }}
+          onChange={(v) => {
+            setDate(v);
+            setError("");
+            if (hasDayRestriction && !isDateOnAvailableDay(v, availableDays)) {
+              setError(
+                `${weekdayFromDateInput(v)} is not available. Pick a: ${formatAvailableDaysHint(availableDays)}.`
+              );
+            }
+          }}
+          placeholder="Select appointment date"
         />
+        {hasDayRestriction && (
+          <p className="text-xs text-[#76828D]">
+            Available days:{" "}
+            <span className="text-[#ABB8C4]">{formatAvailableDaysHint(availableDays)}</span>
+          </p>
+        )}
       </div>
 
       {/* Time Slot */}
@@ -155,7 +203,11 @@ export default function BookAppointmentForm({ doctors, preselectedId }: { doctor
         <p className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-sm text-red-400">{error}</p>
       )}
 
-      <Button type="submit" disabled={loading} className="w-full bg-[#24AE7C] hover:bg-[#1d9268] text-white font-semibold py-5 cursor-pointer">
+      <Button
+        type="submit"
+        disabled={loading || (hasDayRestriction && !!date && !dateAllowed)}
+        className="w-full bg-[#24AE7C] hover:bg-[#1d9268] text-white font-semibold py-5 cursor-pointer disabled:opacity-50 disabled:pointer-events-none"
+      >
         {loading ? "Booking..." : "Confirm Appointment"}
       </Button>
     </form>

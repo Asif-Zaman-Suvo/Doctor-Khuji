@@ -8,7 +8,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { updatePatientProfile, updateUserInfo } from "@/app/actions/patient";
-import { CalendarDays, CheckCircle } from "lucide-react";
+import { CheckCircle } from "lucide-react";
+import { DatePicker } from "@/components/ui/date-picker";
 
 const schema = z.object({
   name: z.string().min(2, "Name required"),
@@ -79,17 +80,11 @@ export default function PatientProfileForm({ defaultValues }: Props) {
             <FormItem>
               <FormLabel className="text-[#ABB8C4]">Date of Birth</FormLabel>
               <FormControl>
-                <div className="relative w-full">
-                  <Input
-                    {...field}
-                    type="date"
-                    className="relative w-full bg-[#1A1D21] border-[#363A3D] text-white focus-visible:ring-[#24AE7C] [color-scheme:dark] pr-10 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-2 [&::-webkit-calendar-picker-indicator]:top-1/2 [&::-webkit-calendar-picker-indicator]:h-5 [&::-webkit-calendar-picker-indicator]:w-5 [&::-webkit-calendar-picker-indicator]:-translate-y-1/2 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0"
-                  />
-                  <CalendarDays
-                    className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#ABB8C4]"
-                    aria-hidden
-                  />
-                </div>
+                <DatePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="Select date of birth"
+                />
               </FormControl>
               <FormMessage className="text-red-400 text-sm" />
             </FormItem>

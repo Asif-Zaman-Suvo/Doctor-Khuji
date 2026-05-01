@@ -2,21 +2,21 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { CalendarDays, Stethoscope, ClipboardList, HeartPulse, CheckCircle, AlertCircle } from "lucide-react";
 import Image from "next/image";
-
-const doctors = [
-  { name: "Dr. Cameron", img: "/assets/images/dr-cameron.png", specialty: "Cardiologist" },
-  { name: "Dr. Cruz", img: "/assets/images/dr-cruz.png", specialty: "Pediatrician" },
-  { name: "Dr. Green", img: "/assets/images/dr-green.png", specialty: "Orthopedic" },
-  { name: "Dr. Lee", img: "/assets/images/dr-lee.png", specialty: "Neurologist" },
-];
+import Link from "next/link";
 
 export default async function PatientDashboardPage() {
   const session = await auth();
   const userId = session?.user?.id;
 
-  const profile = await prisma.patientProfile.findUnique({
-    where: { userId },
-  });
+  const [profile, previewDoctors] = await Promise.all([
+    prisma.patientProfile.findUnique({ where: { userId } }),
+    prisma.user.findMany({
+      where: { role: "DOCTOR", doctorProfile: { isApproved: true } },
+      include: { doctorProfile: true },
+      orderBy: { name: "asc" },
+      take: 4,
+    }),
+  ]);
 
   const profileFields = [
     { label: "Date of Birth", done: !!profile?.dateOfBirth },
@@ -130,21 +130,42 @@ export default async function PatientDashboardPage() {
             See all
           </a>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {doctors.map((doctor) => (
-            <div
-              key={doctor.name}
-              className="flex flex-col items-center gap-2 p-4 rounded-xl bg-[#0D0F10] border border-[#1E2124] hover:border-[#24AE7C]/30 transition-colors cursor-pointer"
-            >
-              <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-[#24AE7C]/30">
-                <Image src={doctor.img} alt={doctor.name} fill className="object-cover" />
+        {previewDoctors.length === 0 ? (
+          <p className="text-sm text-[#76828D] text-center py-8">
+            No approved doctors yet. Check back later or contact support.
+          </p>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {previewDoctors.map((doctor) => (
+              <div
+                key={doctor.id}
+                className="flex flex-col items-center gap-2 p-4 rounded-xl bg-[#0D0F10] border border-[#1E2124] hover:border-[#24AE7C]/30 transition-colors"
+              >
+                <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-[#24AE7C]/30 bg-[#1A1D21] flex items-center justify-center shrink-0">
+                  {doctor.image ? (
+                    <Image src={doctor.image} alt={doctor.name ?? "Doctor"} fill className="object-cover" />
+                  ) : (
+                    <span className="text-[#24AE7C] text-lg font-bold">
+                      {doctor.name?.charAt(0).toUpperCase() ?? "?"}
+                    </span>
+                  )}
+                </div>
+                <p className="text-sm font-medium text-white text-center line-clamp-2">
+                  {doctor.name}
+                </p>
+                <span className="text-xs text-[#76828D] text-center line-clamp-2">
+                  {doctor.doctorProfile?.specialty ?? "Specialist"}
+                </span>
+                <Link
+                  href={`/dashboard/patient/appointments/new?doctorId=${doctor.id}`}
+                  className="text-xs text-[#24AE7C] hover:underline font-medium"
+                >
+                  Book
+                </Link>
               </div>
-              <p className="text-sm font-medium text-white text-center">{doctor.name}</p>
-              <span className="text-xs text-[#76828D] text-center">{doctor.specialty}</span>
-              <button className="text-xs text-[#24AE7C] hover:underline font-medium">Book</button>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

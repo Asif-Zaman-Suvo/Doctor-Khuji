@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/db";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
+import { isDateOnAvailableDay, formatAvailableDaysHint } from "@/lib/doctor-availability";
 
 export async function updatePatientProfile(data: {
   dateOfBirth?: string;
@@ -64,10 +65,27 @@ export async function bookAppointment(data: {
   const userId = session?.user?.id;
   if (!userId) return { error: "Unauthorized" };
 
+  const doctorUser = await prisma.user.findUnique({
+    where: { id: data.doctorId },
+    include: { doctorProfile: true },
+  });
+  if (!doctorUser || doctorUser.role !== "DOCTOR") {
+    return { error: "Invalid doctor" };
+  }
+  const days = doctorUser.doctorProfile?.availableDays ?? [];
+  if (days.length > 0 && !isDateOnAvailableDay(data.date, days)) {
+    return {
+      error: `This doctor is only available on: ${formatAvailableDaysHint(days)}.`,
+    };
+  }
+
+  const [y, m, d] = data.date.split("-").map(Number);
+  const apptAtNoon = new Date(y, m - 1, d, 12, 0, 0);
+
   const existing = await prisma.appointment.findFirst({
     where: {
       doctorId: data.doctorId,
-      date: new Date(data.date),
+      date: apptAtNoon,
       timeSlot: data.timeSlot,
       status: { in: ["PENDING", "CONFIRMED"] },
     },
@@ -79,7 +97,7 @@ export async function bookAppointment(data: {
     data: {
       patientId: userId,
       doctorId: data.doctorId,
-      date: new Date(data.date),
+      date: apptAtNoon,
       timeSlot: data.timeSlot,
       reason: data.reason || null,
       status: "PENDING",

@@ -22,6 +22,14 @@ async function getRecentUsers() {
   });
 }
 
+async function getApprovedDoctors() {
+  return prisma.user.findMany({
+    where: { role: "DOCTOR", doctorProfile: { isApproved: true } },
+    include: { doctorProfile: { select: { specialty: true } } },
+    orderBy: { name: "asc" },
+  });
+}
+
 const roleColors: Record<string, string> = {
   ADMIN: "bg-purple-500/20 text-purple-400",
   DOCTOR: "bg-blue-500/20 text-blue-400",
@@ -30,7 +38,11 @@ const roleColors: Record<string, string> = {
 
 export default async function AdminDashboardPage() {
   const session = await auth();
-  const [stats, recentUsers] = await Promise.all([getStats(), getRecentUsers()]);
+  const [stats, recentUsers, approvedDoctors] = await Promise.all([
+    getStats(),
+    getRecentUsers(),
+    getApprovedDoctors(),
+  ]);
 
   const statCards = [
     {
@@ -132,19 +144,39 @@ export default async function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Doctor Images preview */}
+      {/* Approved Doctors */}
       <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl p-6">
-        <h2 className="text-lg font-semibold text-white mb-4">Available Doctors</h2>
-        <div className="flex gap-3 flex-wrap">
-          {["dr-cameron", "dr-cruz", "dr-green", "dr-lee", "dr-livingston", "dr-peter"].map((dr) => (
-            <div key={dr} className="flex flex-col items-center gap-2">
-              <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-[#24AE7C]/30">
-                <Image src={`/assets/images/${dr}.png`} alt={dr} fill className="object-cover" />
+        <h2 className="text-lg font-semibold text-white mb-4">
+          Approved Doctors
+          <span className="ml-2 text-sm font-normal text-[#76828D]">({approvedDoctors.length})</span>
+        </h2>
+        {approvedDoctors.length === 0 ? (
+          <p className="text-sm text-[#76828D] text-center py-6">No approved doctors yet.</p>
+        ) : (
+          <div className="flex gap-4 flex-wrap">
+            {approvedDoctors.map((dr) => (
+              <div key={dr.id} className="flex flex-col items-center gap-2 w-20">
+                <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-[#24AE7C]/30 bg-[#1A1D21] flex items-center justify-center shrink-0">
+                  {dr.image ? (
+                    <Image src={dr.image} alt={dr.name ?? "Doctor"} fill className="object-cover" />
+                  ) : (
+                    <span className="text-[#24AE7C] text-xl font-bold">
+                      {dr.name?.charAt(0).toUpperCase() ?? "?"}
+                    </span>
+                  )}
+                </div>
+                <span className="text-xs text-[#76828D] text-center leading-tight line-clamp-2">
+                  {dr.name}
+                </span>
+                {dr.doctorProfile?.specialty && (
+                  <span className="text-[10px] text-[#24AE7C] text-center leading-tight line-clamp-1">
+                    {dr.doctorProfile.specialty}
+                  </span>
+                )}
               </div>
-              <span className="text-xs text-[#76828D] capitalize">{dr.replace("dr-", "Dr. ")}</span>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
