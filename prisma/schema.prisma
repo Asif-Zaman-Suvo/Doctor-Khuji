@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model User {
+  id                  String          @id @default(cuid())
+  name                String?
+  email               String          @unique
+  password            String?
+  role                Role            @default(PATIENT)
+  image               String?
+  phone               String?
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  doctorProfile       DoctorProfile?
+  patientProfile      PatientProfile?
+  patientAppointments Appointment[]   @relation("PatientAppointments")
+  doctorAppointments  Appointment[]   @relation("DoctorAppointments")
+}
+
+model DoctorProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  specialty       String?
+  qualifications  String?
+  bio             String?
+  consultationFee Float?
+  experience      Int?
+  availableDays   String[]
+  isApproved      Boolean  @default(false)
+  avgRating       Float?
+  totalReviews    Int      @default(0)
+}
+
+model PatientProfile {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dateOfBirth DateTime?
+  bloodGroup  String?
+  gender      String?
+  address     String?
+}
+
+model Appointment {
+  id        String            @id @default(cuid())
+  patientId String
+  patient   User              @relation("PatientAppointments", fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId  String
+  doctor    User              @relation("DoctorAppointments", fields: [doctorId], references: [id], onDelete: Cascade)
+  date      DateTime
+  timeSlot  String
+  status    AppointmentStatus @default(PENDING)
+  reason    String?
+  notes     String?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+}

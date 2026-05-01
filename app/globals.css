@@ -117,3 +117,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .header {
+    @apply text-3xl font-bold text-white;
+  }
+  .sub-header {
+    @apply text-lg font-semibold text-white;
+  }
+  .text-dark-700 {
+    @apply text-[#ABB8C4];
+  }
+  .text-dark-600 {
+    @apply text-[#76828D];
+  }
+  .bg-dark-400 {
+    @apply bg-[#1A1D21];
+  }
+  .border-dark-500 {
+    @apply border-[#363A3D];
+  }
+  .stat-card {
+    @apply rounded-2xl p-6 flex flex-col gap-3;
+  }
+}

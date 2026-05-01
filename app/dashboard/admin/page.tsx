@@ -1,0 +1,151 @@
+import { auth } from "@/auth";
+import { prisma } from "@/lib/db";
+import { Users, Stethoscope, UserRound, Clock } from "lucide-react";
+import Image from "next/image";
+
+async function getStats() {
+  const [totalUsers, totalDoctors, totalPatients, pendingDoctors] =
+    await Promise.all([
+      prisma.user.count(),
+      prisma.user.count({ where: { role: "DOCTOR" } }),
+      prisma.user.count({ where: { role: "PATIENT" } }),
+      prisma.doctorProfile.count({ where: { isApproved: false } }),
+    ]);
+  return { totalUsers, totalDoctors, totalPatients, pendingDoctors };
+}
+
+async function getRecentUsers() {
+  return prisma.user.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 5,
+    select: { id: true, name: true, email: true, role: true, createdAt: true },
+  });
+}
+
+const roleColors: Record<string, string> = {
+  ADMIN: "bg-purple-500/20 text-purple-400",
+  DOCTOR: "bg-blue-500/20 text-blue-400",
+  PATIENT: "bg-[#24AE7C]/20 text-[#24AE7C]",
+};
+
+export default async function AdminDashboardPage() {
+  const session = await auth();
+  const [stats, recentUsers] = await Promise.all([getStats(), getRecentUsers()]);
+
+  const statCards = [
+    {
+      label: "Total Users",
+      value: stats.totalUsers,
+      icon: Users,
+      color: "bg-blue-500/10 text-blue-400",
+      bg: "bg-[#161A1F] border border-[#1E2124]",
+    },
+    {
+      label: "Doctors",
+      value: stats.totalDoctors,
+      icon: Stethoscope,
+      color: "bg-purple-500/10 text-purple-400",
+      bg: "bg-[#161A1F] border border-[#1E2124]",
+    },
+    {
+      label: "Patients",
+      value: stats.totalPatients,
+      icon: UserRound,
+      color: "bg-[#24AE7C]/10 text-[#24AE7C]",
+      bg: "bg-[#161A1F] border border-[#1E2124]",
+    },
+    {
+      label: "Pending Approvals",
+      value: stats.pendingDoctors,
+      icon: Clock,
+      color: "bg-yellow-500/10 text-yellow-400",
+      bg: "bg-[#161A1F] border border-[#1E2124]",
+    },
+  ];
+
+  return (
+    <div className="p-8 space-y-8">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-white">
+            Welcome back, {session?.user?.name} 👋
+          </h1>
+          <p className="text-[#ABB8C4] mt-1">
+            Here&apos;s what&apos;s happening on your portal today.
+          </p>
+        </div>
+        <div className="flex items-center gap-2 bg-[#24AE7C]/10 border border-[#24AE7C]/30 rounded-full px-4 py-2">
+          <span className="w-2 h-2 rounded-full bg-[#24AE7C] animate-pulse" />
+          <span className="text-sm text-[#24AE7C] font-medium">Live</span>
+        </div>
+      </div>
+
+      {/* Stat Cards */}
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+        {statCards.map((card) => {
+          const Icon = card.icon;
+          return (
+            <div key={card.label} className={`stat-card ${card.bg}`}>
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${card.color}`}>
+                <Icon size={20} />
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-white">{card.value}</p>
+                <p className="text-sm text-[#ABB8C4]">{card.label}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Recent Users */}
+      <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-[#1E2124]">
+          <h2 className="text-lg font-semibold text-white">Recent Users</h2>
+          <p className="text-sm text-[#ABB8C4]">Latest registered users</p>
+        </div>
+        <div className="divide-y divide-[#1E2124]">
+          {recentUsers.map((user) => (
+            <div key={user.id} className="flex items-center justify-between px-6 py-4">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-[#24AE7C]/10 flex items-center justify-center shrink-0">
+                  <span className="text-[#24AE7C] text-sm font-bold">
+                    {user.name?.charAt(0).toUpperCase() ?? "?"}
+                  </span>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-white">{user.name ?? "—"}</p>
+                  <p className="text-xs text-[#76828D]">{user.email}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${roleColors[user.role]}`}>
+                  {user.role}
+                </span>
+                <span className="text-xs text-[#76828D]">
+                  {new Date(user.createdAt).toLocaleDateString()}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Doctor Images preview */}
+      <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl p-6">
+        <h2 className="text-lg font-semibold text-white mb-4">Available Doctors</h2>
+        <div className="flex gap-3 flex-wrap">
+          {["dr-cameron", "dr-cruz", "dr-green", "dr-lee", "dr-livingston", "dr-peter"].map((dr) => (
+            <div key={dr} className="flex flex-col items-center gap-2">
+              <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-[#24AE7C]/30">
+                <Image src={`/assets/images/${dr}.png`} alt={dr} fill className="object-cover" />
+              </div>
+              <span className="text-xs text-[#76828D] capitalize">{dr.replace("dr-", "Dr. ")}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
