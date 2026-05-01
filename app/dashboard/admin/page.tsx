@@ -9,7 +9,12 @@ async function getStats() {
       prisma.user.count(),
       prisma.user.count({ where: { role: "DOCTOR" } }),
       prisma.user.count({ where: { role: "PATIENT" } }),
-      prisma.doctorProfile.count({ where: { isApproved: false } }),
+      prisma.user.count({
+        where: {
+          role: "DOCTOR",
+          NOT: { doctorProfile: { isApproved: true } },
+        },
+      }),
     ]);
   return { totalUsers, totalDoctors, totalPatients, pendingDoctors };
 }
@@ -50,28 +55,28 @@ export default async function AdminDashboardPage() {
       value: stats.totalUsers,
       icon: Users,
       color: "bg-blue-500/10 text-blue-400",
-      bg: "bg-[#161A1F] border border-[#1E2124]",
+      bg: "bg-app-surface border border-app-border",
     },
     {
       label: "Doctors",
       value: stats.totalDoctors,
       icon: Stethoscope,
       color: "bg-purple-500/10 text-purple-400",
-      bg: "bg-[#161A1F] border border-[#1E2124]",
+      bg: "bg-app-surface border border-app-border",
     },
     {
       label: "Patients",
       value: stats.totalPatients,
       icon: UserRound,
       color: "bg-[#24AE7C]/10 text-[#24AE7C]",
-      bg: "bg-[#161A1F] border border-[#1E2124]",
+      bg: "bg-app-surface border border-app-border",
     },
     {
       label: "Pending Approvals",
       value: stats.pendingDoctors,
       icon: Clock,
       color: "bg-yellow-500/10 text-yellow-400",
-      bg: "bg-[#161A1F] border border-[#1E2124]",
+      bg: "bg-app-surface border border-app-border",
     },
   ];
 
@@ -80,10 +85,10 @@ export default async function AdminDashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-2xl font-bold text-app-text">
             Welcome back, {session?.user?.name} 👋
           </h1>
-          <p className="text-[#ABB8C4] mt-1">
+          <p className="text-app-muted mt-1">
             Here&apos;s what&apos;s happening on your portal today.
           </p>
         </div>
@@ -103,8 +108,8 @@ export default async function AdminDashboardPage() {
                 <Icon size={20} />
               </div>
               <div>
-                <p className="text-3xl font-bold text-white">{card.value}</p>
-                <p className="text-sm text-[#ABB8C4]">{card.label}</p>
+                <p className="text-3xl font-bold text-app-text">{card.value}</p>
+                <p className="text-sm text-app-muted">{card.label}</p>
               </div>
             </div>
           );
@@ -112,12 +117,12 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Recent Users */}
-      <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-[#1E2124]">
-          <h2 className="text-lg font-semibold text-white">Recent Users</h2>
-          <p className="text-sm text-[#ABB8C4]">Latest registered users</p>
+      <div className="bg-app-surface border border-app-border rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-app-border">
+          <h2 className="text-lg font-semibold text-app-text">Recent Users</h2>
+          <p className="text-sm text-app-muted">Latest registered users</p>
         </div>
-        <div className="divide-y divide-[#1E2124]">
+        <div className="divide-y divide-app-border">
           {recentUsers.map((user) => (
             <div key={user.id} className="flex items-center justify-between px-6 py-4">
               <div className="flex items-center gap-3">
@@ -127,15 +132,15 @@ export default async function AdminDashboardPage() {
                   </span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">{user.name ?? "—"}</p>
-                  <p className="text-xs text-[#76828D]">{user.email}</p>
+                  <p className="text-sm font-medium text-app-text">{user.name ?? "—"}</p>
+                  <p className="text-xs text-app-subtle">{user.email}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
                 <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${roleColors[user.role]}`}>
                   {user.role}
                 </span>
-                <span className="text-xs text-[#76828D]">
+                <span className="text-xs text-app-subtle">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </span>
               </div>
@@ -145,18 +150,18 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Approved Doctors */}
-      <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl p-6">
-        <h2 className="text-lg font-semibold text-white mb-4">
+      <div className="bg-app-surface border border-app-border rounded-2xl p-6">
+        <h2 className="text-lg font-semibold text-app-text mb-4">
           Approved Doctors
-          <span className="ml-2 text-sm font-normal text-[#76828D]">({approvedDoctors.length})</span>
+          <span className="ml-2 text-sm font-normal text-app-subtle">({approvedDoctors.length})</span>
         </h2>
         {approvedDoctors.length === 0 ? (
-          <p className="text-sm text-[#76828D] text-center py-6">No approved doctors yet.</p>
+          <p className="text-sm text-app-subtle text-center py-6">No approved doctors yet.</p>
         ) : (
           <div className="flex gap-4 flex-wrap">
             {approvedDoctors.map((dr) => (
               <div key={dr.id} className="flex flex-col items-center gap-2 w-20">
-                <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-[#24AE7C]/30 bg-[#1A1D21] flex items-center justify-center shrink-0">
+                <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-[#24AE7C]/30 bg-app-surface-2 flex items-center justify-center shrink-0">
                   {dr.image ? (
                     <Image src={dr.image} alt={dr.name ?? "Doctor"} fill className="object-cover" />
                   ) : (
@@ -165,7 +170,7 @@ export default async function AdminDashboardPage() {
                     </span>
                   )}
                 </div>
-                <span className="text-xs text-[#76828D] text-center leading-tight line-clamp-2">
+                <span className="text-xs text-app-subtle text-center leading-tight line-clamp-2">
                   {dr.name}
                 </span>
                 {dr.doctorProfile?.specialty && (

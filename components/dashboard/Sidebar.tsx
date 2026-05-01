@@ -15,6 +15,7 @@ import {
   ClipboardList,
   HeartPulse,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 interface SidebarProps {
   role: "ADMIN" | "DOCTOR" | "PATIENT";
@@ -58,11 +59,11 @@ export default function Sidebar({ role, name, email }: SidebarProps) {
   const items = navItems[role];
 
   return (
-    <aside className="w-64 shrink-0 flex flex-col h-screen bg-[#0D0F10] border-r border-[#1E2124] sticky top-0">
+    <aside className="w-64 shrink-0 flex flex-col h-screen bg-app-surface border-r border-app-border sticky top-0 shadow-sm">
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-6 py-5 border-b border-[#1E2124]">
+      <div className="flex items-center gap-2.5 px-6 py-5 border-b border-app-border">
         <Image src="/assets/icons/logo-icon.svg" alt="logo" width={32} height={32} />
-        <span className="text-lg font-bold text-white">DoctorKhuji</span>
+        <span className="text-lg font-bold text-app-text">DoctorKhuji</span>
       </div>
 
       {/* Role Badge */}
@@ -84,7 +85,7 @@ export default function Sidebar({ role, name, email }: SidebarProps) {
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 isActive
                   ? "bg-[#24AE7C] text-white"
-                  : "text-[#ABB8C4] hover:bg-[#1A1D21] hover:text-white"
+                  : "text-app-muted hover:bg-app-surface-2 hover:text-app-text"
               }`}
             >
               <Icon size={18} />
@@ -95,7 +96,7 @@ export default function Sidebar({ role, name, email }: SidebarProps) {
       </nav>
 
       {/* User + Sign Out */}
-      <div className="px-4 py-4 border-t border-[#1E2124] space-y-3">
+      <div className="px-4 py-4 border-t border-app-border space-y-3">
         <div className="flex items-center gap-3 px-2">
           <div className="w-9 h-9 rounded-full bg-[#24AE7C]/20 flex items-center justify-center shrink-0">
             <span className="text-[#24AE7C] text-sm font-bold">
@@ -103,13 +104,14 @@ export default function Sidebar({ role, name, email }: SidebarProps) {
             </span>
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-medium text-white truncate">{name}</p>
-            <p className="text-xs text-[#76828D] truncate">{email}</p>
+            <p className="text-sm font-medium text-app-text truncate">{name}</p>
+            <p className="text-xs text-app-subtle truncate">{email}</p>
           </div>
         </div>
+        <ThemeToggle />
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-[#ABB8C4] hover:bg-red-500/10 hover:text-red-400 transition-all cursor-pointer"
+          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-app-muted hover:bg-red-500/10 hover:text-red-400 transition-all cursor-pointer"
         >
           <LogOut size={18} />
           Sign Out

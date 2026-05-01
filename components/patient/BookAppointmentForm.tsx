@@ -87,7 +87,7 @@ export default function BookAppointmentForm({ doctors, preselectedId }: { doctor
 
       {/* Doctor Selection */}
       <div className="space-y-3">
-        <label className="text-sm font-medium text-[#ABB8C4]">Select Doctor</label>
+        <label className="text-sm font-medium text-app-muted">Select Doctor</label>
         <div className="grid sm:grid-cols-2 gap-3">
           {doctors.map(doc => (
             <button
@@ -97,18 +97,18 @@ export default function BookAppointmentForm({ doctors, preselectedId }: { doctor
               className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-left cursor-pointer ${
                 selectedDoctor === doc.id
                   ? "border-[#24AE7C] bg-[#24AE7C]/5"
-                  : "border-[#1E2124] bg-[#0D0F10] hover:border-[#363A3D]"
+                  : "border-app-border bg-app-bg hover:border-app-border-2"
               }`}
             >
-              <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 border border-[#1E2124]">
+              <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 border border-app-border">
                 {doc.image
                   ? <Image src={doc.image} alt={doc.name ?? ""} fill className="object-cover" />
                   : <div className="w-full h-full bg-[#24AE7C]/20 flex items-center justify-center text-[#24AE7C] font-bold">{doc.name?.[0]}</div>
                 }
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-white truncate">{doc.name}</p>
-                <p className="text-xs text-[#76828D]">{doc.doctorProfile?.specialty}</p>
+                <p className="text-sm font-semibold text-app-text truncate">{doc.name}</p>
+                <p className="text-xs text-app-subtle">{doc.doctorProfile?.specialty}</p>
                 {doc.doctorProfile?.consultationFee && (
                   <p className="text-xs text-[#24AE7C] font-medium mt-0.5">${doc.doctorProfile.consultationFee} / visit</p>
                 )}
@@ -125,15 +125,15 @@ export default function BookAppointmentForm({ doctors, preselectedId }: { doctor
 
       {/* Available days info */}
       {doctor?.doctorProfile?.availableDays && (
-        <div className="flex items-center gap-2 text-sm text-[#ABB8C4] bg-[#1A1D21] border border-[#363A3D] rounded-xl px-4 py-3">
+        <div className="flex items-center gap-2 text-sm text-app-muted bg-app-surface-2 border border-app-border-2 rounded-xl px-4 py-3">
           <CalendarDays size={16} className="text-[#24AE7C]" />
-          Available on: <span className="text-white font-medium">{doctor.doctorProfile.availableDays.join(", ")}</span>
+          Available on: <span className="text-app-text font-medium">{doctor.doctorProfile.availableDays.join(", ")}</span>
         </div>
       )}
 
       {/* Date */}
       <div className="space-y-2">
-        <label className="text-sm font-medium text-[#ABB8C4] flex items-center gap-2">
+        <label className="text-sm font-medium text-app-muted flex items-center gap-2">
           <CalendarDays size={15} /> Appointment Date
         </label>
         <DatePicker
@@ -157,16 +157,16 @@ export default function BookAppointmentForm({ doctors, preselectedId }: { doctor
           placeholder="Select appointment date"
         />
         {hasDayRestriction && (
-          <p className="text-xs text-[#76828D]">
+          <p className="text-xs text-app-subtle">
             Available days:{" "}
-            <span className="text-[#ABB8C4]">{formatAvailableDaysHint(availableDays)}</span>
+            <span className="text-app-muted">{formatAvailableDaysHint(availableDays)}</span>
           </p>
         )}
       </div>
 
       {/* Time Slot */}
       <div className="space-y-3">
-        <label className="text-sm font-medium text-[#ABB8C4] flex items-center gap-2">
+        <label className="text-sm font-medium text-app-muted flex items-center gap-2">
           <Clock size={15} /> Time Slot
         </label>
         <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
@@ -178,7 +178,7 @@ export default function BookAppointmentForm({ doctors, preselectedId }: { doctor
               className={`py-2 rounded-xl text-sm font-medium border transition-all cursor-pointer ${
                 timeSlot === slot
                   ? "border-[#24AE7C] bg-[#24AE7C]/10 text-[#24AE7C]"
-                  : "border-[#1E2124] text-[#ABB8C4] hover:border-[#363A3D] hover:text-white"
+                  : "border-app-border text-app-muted hover:border-app-border-2 hover:text-app-text"
               }`}
             >
               {slot}
@@ -189,13 +189,13 @@ export default function BookAppointmentForm({ doctors, preselectedId }: { doctor
 
       {/* Reason */}
       <div className="space-y-2">
-        <label className="text-sm font-medium text-[#ABB8C4]">Reason for Visit <span className="text-[#76828D]">(optional)</span></label>
+        <label className="text-sm font-medium text-app-muted">Reason for Visit <span className="text-app-subtle">(optional)</span></label>
         <textarea
           value={reason}
           onChange={e => setReason(e.target.value)}
           rows={3}
           placeholder="Describe your symptoms or reason..."
-          className="w-full rounded-xl bg-[#1A1D21] border border-[#363A3D] text-white placeholder:text-[#76828D] px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#24AE7C] resize-none"
+          className="w-full rounded-xl bg-app-surface-2 border border-app-border-2 text-app-text placeholder:text-app-subtle px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#24AE7C] resize-none"
         />
       </div>
 

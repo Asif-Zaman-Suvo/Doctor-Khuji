@@ -2,7 +2,39 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ── App-specific design tokens ─────────────────────────────── */
+:root {
+  /* light mode */
+  --app-bg:        #F1F5F9;
+  --app-surface:   #FFFFFF;
+  --app-surface-2: #F8FAFC;
+  --app-border:    #E2E8F0;
+  --app-border-2:  #CBD5E1;
+  --app-text:      #0F172A;
+  --app-muted:     #475569;
+  --app-subtle:    #94A3B8;
+}
+
+.dark {
+  --app-bg:        #0D0F10;
+  --app-surface:   #161A1F;
+  --app-surface-2: #1A1D21;
+  --app-border:    #1E2124;
+  --app-border-2:  #363A3D;
+  --app-text:      #FFFFFF;
+  --app-muted:     #ABB8C4;
+  --app-subtle:    #76828D;
+}
+
 @theme inline {
+  --color-app-bg:        var(--app-bg);
+  --color-app-surface:   var(--app-surface);
+  --color-app-surface-2: var(--app-surface-2);
+  --color-app-border:    var(--app-border);
+  --color-app-border-2:  var(--app-border-2);
+  --color-app-text:      var(--app-text);
+  --color-app-muted:     var(--app-muted);
+  --color-app-subtle:    var(--app-subtle);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -112,32 +144,56 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-app-bg text-app-text;
   }
 }
 
+/* ── Light-mode polish ───────────────────────────────────────── */
+:root:not(.dark) .card-shadow {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+}
+:root:not(.dark) .input-wrapper {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* Auto-shadow every rounded surface card in light mode */
+:root:not(.dark) .rounded-2xl.bg-app-surface,
+:root:not(.dark) .rounded-2xl.bg-app-surface-2 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+}
+
+/* Stat-card icon circles — stronger colors in light mode */
+:root:not(.dark) .bg-blue-500\/10  { background-color: #EFF6FF; }
+:root:not(.dark) .bg-purple-500\/10 { background-color: #F5F3FF; }
+:root:not(.dark) .bg-yellow-500\/10 { background-color: #FEFCE8; }
+:root:not(.dark) .text-blue-400    { color: #3B82F6; }
+:root:not(.dark) .text-purple-400  { color: #8B5CF6; }
+:root:not(.dark) .text-yellow-400  { color: #CA8A04; }
+:root:not(.dark) .text-yellow-500  { color: #CA8A04; }
+
 @layer utilities {
   .header {
-    @apply text-3xl font-bold text-white;
+    @apply text-3xl font-bold text-app-text;
   }
   .sub-header {
-    @apply text-lg font-semibold text-white;
+    @apply text-lg font-semibold text-app-text;
   }
   .text-dark-700 {
-    @apply text-[#ABB8C4];
+    @apply text-app-muted;
   }
   .text-dark-600 {
-    @apply text-[#76828D];
+    @apply text-app-subtle;
   }
   .bg-dark-400 {
-    @apply bg-[#1A1D21];
+    @apply bg-app-surface-2;
   }
   .border-dark-500 {
-    @apply border-[#363A3D];
+    @apply border-app-border-2;
   }
   .stat-card {
-    @apply rounded-2xl p-6 flex flex-col gap-3;
+    @apply rounded-2xl p-5 flex flex-col gap-3;
   }
 }

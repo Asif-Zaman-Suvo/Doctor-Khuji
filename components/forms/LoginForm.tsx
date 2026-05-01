@@ -86,9 +86,9 @@ export default function LoginForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Email</FormLabel>
+              <FormLabel className="text-app-muted">Email</FormLabel>
               <FormControl>
-                <div className="flex items-center rounded-md border border-dark-500 bg-dark-400">
+                <div className="flex items-center rounded-xl border border-app-border-2 bg-app-surface-2 input-wrapper">
                   <Image
                     src="/assets/icons/email.svg"
                     alt="email"
@@ -100,7 +100,7 @@ export default function LoginForm() {
                     {...field}
                     type="email"
                     placeholder="john@example.com"
-                    className="border-0 bg-transparent text-white placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none"
+                    className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none"
                   />
                 </div>
               </FormControl>
@@ -114,9 +114,9 @@ export default function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Password</FormLabel>
+              <FormLabel className="text-app-muted">Password</FormLabel>
               <FormControl>
-                <div className="flex items-center rounded-md border border-dark-500 bg-dark-400 pr-3">
+                <div className="flex items-center rounded-xl border border-app-border-2 bg-app-surface-2 input-wrapper pr-3">
                   <Image
                     src="/assets/icons/user.svg"
                     alt="password"
@@ -128,12 +128,12 @@ export default function LoginForm() {
                     {...field}
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
-                    className="border-0 bg-transparent text-white placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none flex-1"
+                    className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none flex-1"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-[#ABB8C4] hover:text-white transition-colors"
+                    className="text-app-muted hover:text-app-text transition-colors"
                   >
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
@@ -158,7 +158,7 @@ export default function LoginForm() {
           {loading ? "Signing in..." : "Sign In"}
         </Button>
 
-        <p className="text-center text-sm text-[#ABB8C4]">
+        <p className="text-center text-sm text-app-muted">
           Don&apos;t have an account?{" "}
           <Link href="/register" className="text-[#24AE7C] hover:underline font-medium">
             Create one

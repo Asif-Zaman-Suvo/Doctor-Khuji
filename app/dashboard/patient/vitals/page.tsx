@@ -13,28 +13,28 @@ export default function VitalsPage() {
   return (
     <div className="p-8 space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-white">Vitals Tracker</h1>
-        <p className="text-[#ABB8C4] mt-1">Monitor your health metrics over time</p>
+        <h1 className="text-2xl font-bold text-app-text">Vitals Tracker</h1>
+        <p className="text-app-muted mt-1">Monitor your health metrics over time</p>
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {vitals.map(v => {
           const Icon = v.icon;
           return (
-            <div key={v.label} className="bg-[#161A1F] border border-[#1E2124] rounded-2xl p-5 space-y-4">
+            <div key={v.label} className="bg-app-surface border border-app-border rounded-2xl p-5 space-y-4">
               <div className="flex items-center justify-between">
                 <div className={`w-10 h-10 rounded-xl ${v.bg} flex items-center justify-center`}>
                   <Icon size={20} className={v.color} />
                 </div>
-                <span className="text-xs text-[#76828D] bg-[#0D0F10] border border-[#1E2124] rounded-full px-3 py-1">
+                <span className="text-xs text-app-subtle bg-app-bg border border-app-border rounded-full px-3 py-1">
                   Normal: {v.normal}
                 </span>
               </div>
               <div>
-                <p className="text-3xl font-bold text-white">{v.value} <span className="text-sm text-[#76828D] font-normal">{v.value !== "—" && v.unit}</span></p>
-                <p className="text-sm text-[#ABB8C4] mt-0.5">{v.label}</p>
+                <p className="text-3xl font-bold text-app-text">{v.value} <span className="text-sm text-app-subtle font-normal">{v.value !== "—" && v.unit}</span></p>
+                <p className="text-sm text-app-muted mt-0.5">{v.label}</p>
               </div>
-              <button className="w-full text-sm border border-[#363A3D] hover:border-[#24AE7C]/40 text-[#76828D] hover:text-white rounded-xl py-2 transition-colors cursor-pointer">
+              <button className="w-full text-sm border border-app-border-2 hover:border-[#24AE7C]/40 text-app-subtle hover:text-app-text rounded-xl py-2 transition-colors cursor-pointer">
                 + Log Reading
               </button>
             </div>
@@ -42,10 +42,10 @@ export default function VitalsPage() {
         })}
       </div>
 
-      <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl p-6 text-center space-y-3">
-        <Activity size={36} className="text-[#363A3D] mx-auto" />
-        <p className="text-base font-semibold text-white">Vitals Logging Coming Soon</p>
-        <p className="text-sm text-[#76828D] max-w-md mx-auto">
+      <div className="bg-app-surface border border-app-border rounded-2xl p-6 text-center space-y-3">
+        <Activity size={36} className="text-app-border-2 mx-auto" />
+        <p className="text-base font-semibold text-app-text">Vitals Logging Coming Soon</p>
+        <p className="text-sm text-app-subtle max-w-md mx-auto">
           Track your heart rate, blood pressure, glucose, and more over time with charts and trend analysis.
         </p>
       </div>

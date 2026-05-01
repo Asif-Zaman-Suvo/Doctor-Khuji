@@ -35,10 +35,10 @@ export default async function DoctorDashboardPage() {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-2xl font-bold text-app-text">
             Welcome, Dr. {session?.user?.name} 👨‍⚕️
           </h1>
-          <p className="text-[#ABB8C4] mt-1">Manage your appointments and patient records.</p>
+          <p className="text-app-muted mt-1">Manage your appointments and patient records.</p>
         </div>
         {profile?.isApproved ? (
           <div className="flex items-center gap-2 bg-[#24AE7C]/10 border border-[#24AE7C]/30 rounded-full px-4 py-2">
@@ -58,13 +58,13 @@ export default async function DoctorDashboardPage() {
         {statCards.map((card) => {
           const Icon = card.icon;
           return (
-            <div key={card.label} className="stat-card bg-[#161A1F] border border-[#1E2124]">
+            <div key={card.label} className="stat-card bg-app-surface border border-app-border">
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${card.color}`}>
                 <Icon size={20} />
               </div>
               <div>
-                <p className="text-3xl font-bold text-white">{card.value}</p>
-                <p className="text-sm text-[#ABB8C4]">{card.label}</p>
+                <p className="text-3xl font-bold text-app-text">{card.value}</p>
+                <p className="text-sm text-app-muted">{card.label}</p>
               </div>
             </div>
           );
@@ -73,12 +73,12 @@ export default async function DoctorDashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Profile Completion */}
-        <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl p-6 space-y-4">
+        <div className="bg-app-surface border border-app-border rounded-2xl p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-white">Profile Completion</h2>
+            <h2 className="text-lg font-semibold text-app-text">Profile Completion</h2>
             <span className="text-2xl font-bold text-[#24AE7C]">{completionPct}%</span>
           </div>
-          <div className="w-full h-2 bg-[#1E2124] rounded-full overflow-hidden">
+          <div className="w-full h-2 bg-app-border rounded-full overflow-hidden">
             <div
               className="h-full bg-[#24AE7C] rounded-full transition-all"
               style={{ width: `${completionPct}%` }}
@@ -93,9 +93,9 @@ export default async function DoctorDashboardPage() {
                   ) : (
                     <AlertCircle size={15} className="text-yellow-400" />
                   )}
-                  <span className="text-[#ABB8C4]">{field.label}</span>
+                  <span className="text-app-muted">{field.label}</span>
                 </div>
-                <span className={field.done ? "text-white text-xs" : "text-[#76828D] text-xs"}>
+                <span className={field.done ? "text-app-text text-xs" : "text-app-subtle text-xs"}>
                   {field.done ? field.value : "Not set"}
                 </span>
               </div>
@@ -112,11 +112,11 @@ export default async function DoctorDashboardPage() {
         </div>
 
         {/* Upcoming Appointments Placeholder */}
-        <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl p-6 space-y-4">
-          <h2 className="text-lg font-semibold text-white">Upcoming Appointments</h2>
+        <div className="bg-app-surface border border-app-border rounded-2xl p-6 space-y-4">
+          <h2 className="text-lg font-semibold text-app-text">Upcoming Appointments</h2>
           <div className="flex flex-col items-center justify-center py-12 gap-3">
             <Image src="/assets/icons/appointments.svg" alt="no appointments" width={48} height={48} className="opacity-30" />
-            <p className="text-[#76828D] text-sm text-center">No upcoming appointments yet.</p>
+            <p className="text-app-subtle text-sm text-center">No upcoming appointments yet.</p>
           </div>
         </div>
       </div>

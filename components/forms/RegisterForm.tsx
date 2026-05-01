@@ -83,7 +83,7 @@ export default function RegisterForm() {
           name="role"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">I am a</FormLabel>
+              <FormLabel className="text-app-muted">I am a</FormLabel>
               <FormControl>
                 <div className="grid grid-cols-2 gap-3">
                   {(["PATIENT", "DOCTOR"] as const).map((role) => (
@@ -91,10 +91,10 @@ export default function RegisterForm() {
                       key={role}
                       type="button"
                       onClick={() => field.onChange(role)}
-                      className={`flex items-center gap-3 rounded-xl border-2 px-4 py-3 transition-all cursor-pointer ${
+                      className={`flex items-center gap-3 rounded-xl border-2 px-4 py-3 transition-all cursor-pointer font-medium ${
                         selectedRole === role
-                          ? "border-[#24AE7C] bg-[#24AE7C]/10 text-white"
-                          : "border-[#363A3D] bg-[#1A1D21] text-[#ABB8C4] hover:border-[#24AE7C]/50"
+                          ? "border-[#24AE7C] bg-[#24AE7C]/10 text-[#24AE7C]"
+                          : "border-app-border-2 bg-app-surface-2 text-app-muted hover:border-[#24AE7C]/50 hover:text-app-text"
                       }`}
                     >
                       {role === "PATIENT" ? (
@@ -120,11 +120,11 @@ export default function RegisterForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Full Name</FormLabel>
+              <FormLabel className="text-app-muted">Full Name</FormLabel>
               <FormControl>
-                <div className="flex items-center rounded-md border border-dark-500 bg-dark-400">
+                <div className="flex items-center rounded-xl border border-app-border-2 bg-app-surface-2 input-wrapper">
                   <Image src="/assets/icons/user.svg" alt="user" width={20} height={20} className="ml-3 shrink-0" />
-                  <Input {...field} placeholder="John Doe" className="border-0 bg-transparent text-white placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none" />
+                  <Input {...field} placeholder="John Doe" className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none" />
                 </div>
               </FormControl>
               <FormMessage className="text-red-400 text-sm" />
@@ -138,11 +138,11 @@ export default function RegisterForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Email</FormLabel>
+              <FormLabel className="text-app-muted">Email</FormLabel>
               <FormControl>
-                <div className="flex items-center rounded-md border border-dark-500 bg-dark-400">
+                <div className="flex items-center rounded-xl border border-app-border-2 bg-app-surface-2 input-wrapper">
                   <Image src="/assets/icons/email.svg" alt="email" width={20} height={20} className="ml-3 shrink-0" />
-                  <Input {...field} type="email" placeholder="john@example.com" className="border-0 bg-transparent text-white placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none" />
+                  <Input {...field} type="email" placeholder="john@example.com" className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none" />
                 </div>
               </FormControl>
               <FormMessage className="text-red-400 text-sm" />
@@ -156,12 +156,12 @@ export default function RegisterForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Password</FormLabel>
+              <FormLabel className="text-app-muted">Password</FormLabel>
               <FormControl>
-                <div className="flex items-center rounded-md border border-dark-500 bg-dark-400 pr-3">
+                <div className="flex items-center rounded-xl border border-app-border-2 bg-app-surface-2 input-wrapper pr-3">
                   <Image src="/assets/icons/user.svg" alt="lock" width={20} height={20} className="ml-3 shrink-0" />
-                  <Input {...field} type={showPassword ? "text" : "password"} placeholder="Min. 8 characters" className="border-0 bg-transparent text-white placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none flex-1" />
-                  <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-[#ABB8C4] hover:text-white transition-colors">
+                  <Input {...field} type={showPassword ? "text" : "password"} placeholder="Min. 8 characters" className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none flex-1" />
+                  <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-app-muted hover:text-app-text transition-colors">
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
@@ -177,12 +177,12 @@ export default function RegisterForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Confirm Password</FormLabel>
+              <FormLabel className="text-app-muted">Confirm Password</FormLabel>
               <FormControl>
-                <div className="flex items-center rounded-md border border-dark-500 bg-dark-400 pr-3">
+                <div className="flex items-center rounded-xl border border-app-border-2 bg-app-surface-2 input-wrapper pr-3">
                   <Image src="/assets/icons/user.svg" alt="lock" width={20} height={20} className="ml-3 shrink-0" />
-                  <Input {...field} type={showConfirm ? "text" : "password"} placeholder="Re-enter password" className="border-0 bg-transparent text-white placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none flex-1" />
-                  <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="text-[#ABB8C4] hover:text-white transition-colors">
+                  <Input {...field} type={showConfirm ? "text" : "password"} placeholder="Re-enter password" className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none flex-1" />
+                  <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="text-app-muted hover:text-app-text transition-colors">
                     {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
@@ -206,7 +206,7 @@ export default function RegisterForm() {
           {loading ? "Creating account..." : "Create Account"}
         </Button>
 
-        <p className="text-center text-sm text-[#ABB8C4]">
+        <p className="text-center text-sm text-app-muted">
           Already have an account?{" "}
           <Link href="/login" className="text-[#24AE7C] hover:underline font-medium">
             Sign in

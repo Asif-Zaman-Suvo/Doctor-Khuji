@@ -51,7 +51,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
               placeholder={placeholder}
               {...field}
               value={field.value || ""}
-              className="border-0 bg-transparent text-white placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none"
+              className="border-0 bg-transparent text-app-text placeholder:text-dark-600 focus-visible:ring-0 focus-visible:outline-none"
             />
           </FormControl>
         </div>
@@ -70,7 +70,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
               {...field}
               onChange={(value) => field.onChange(value)}
               onBlur={field.onBlur}
-              className="border-0 py-2 px-3 bg-transparent text-white placeholder:text-dark-600 w-full focus-visible:ring-0 focus-visible:outline-none"
+              className="border-0 py-2 px-3 bg-transparent text-app-text placeholder:text-dark-600 w-full focus-visible:ring-0 focus-visible:outline-none"
             />
           </FormControl>
         </div>
@@ -91,7 +91,7 @@ const CustomFormField = (props: CustomProps) => {
       render={({ field }) => (
         <FormItem className="flex-1">
           {fieldType !== FormFieldTypes.CHECKBOX && label && (
-            <FormLabel className="text-[#ABB8C4]">{label}</FormLabel>
+            <FormLabel className="text-app-muted">{label}</FormLabel>
           )}
           <RenderField field={field} props={props} />
           <FormMessage className="text-red-500 text-sm" />

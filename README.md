@@ -86,16 +86,12 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run lint` | ESLint |
 | `npm run db:seed` | Run `prisma/seed.ts` via tsx |
 
-## Seeded accounts (development)
+## Accessing the portal
 
-After `npx prisma db seed`:
+There are two ways to access the portal as a user:
 
-| Role | Email | Password |
-|------|--------|----------|
-| Admin | `admin@portal.com` | `Admin@1234` |
-| Doctors | `cameron@portal.com`, `cruz@portal.com`, `green@portal.com`, `lee@portal.com` | `Doctor@1234` |
-
-Change these in production and avoid committing real secrets.
+- **Patient** — Register a new account from the landing page, select the "Patient" role.
+- **Doctor** — Register a new account, select the "Doctor" role. Your profile will be visible after an admin approves your account.
 
 ## Project structure (high level)
 

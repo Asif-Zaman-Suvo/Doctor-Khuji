@@ -58,9 +58,9 @@ export default function PatientProfileForm({ defaultValues }: Props) {
         <div className="grid sm:grid-cols-2 gap-5">
           <FormField control={form.control} name="name" render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Full Name</FormLabel>
+              <FormLabel className="text-app-muted">Full Name</FormLabel>
               <FormControl>
-                <Input {...field} className="bg-[#1A1D21] border-[#363A3D] text-white placeholder:text-[#76828D] focus-visible:ring-[#24AE7C]" />
+                <Input {...field} className="bg-app-surface-2 border-app-border-2 text-app-text placeholder:text-app-subtle focus-visible:ring-[#24AE7C]" />
               </FormControl>
               <FormMessage className="text-red-400 text-sm" />
             </FormItem>
@@ -68,9 +68,9 @@ export default function PatientProfileForm({ defaultValues }: Props) {
 
           <FormField control={form.control} name="phone" render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Phone</FormLabel>
+              <FormLabel className="text-app-muted">Phone</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="+880..." className="bg-[#1A1D21] border-[#363A3D] text-white placeholder:text-[#76828D] focus-visible:ring-[#24AE7C]" />
+                <Input {...field} placeholder="+880..." className="bg-app-surface-2 border-app-border-2 text-app-text placeholder:text-app-subtle focus-visible:ring-[#24AE7C]" />
               </FormControl>
               <FormMessage className="text-red-400 text-sm" />
             </FormItem>
@@ -78,12 +78,13 @@ export default function PatientProfileForm({ defaultValues }: Props) {
 
           <FormField control={form.control} name="dateOfBirth" render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Date of Birth</FormLabel>
+              <FormLabel className="text-app-muted">Date of Birth</FormLabel>
               <FormControl>
                 <DatePicker
                   value={field.value}
                   onChange={field.onChange}
                   placeholder="Select date of birth"
+                  variant="birthdate"
                 />
               </FormControl>
               <FormMessage className="text-red-400 text-sm" />
@@ -92,9 +93,9 @@ export default function PatientProfileForm({ defaultValues }: Props) {
 
           <FormField control={form.control} name="bloodGroup" render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Blood Group</FormLabel>
+              <FormLabel className="text-app-muted">Blood Group</FormLabel>
               <FormControl>
-                <select {...field} className="w-full h-10 rounded-md bg-[#1A1D21] border border-[#363A3D] text-white px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#24AE7C]">
+                <select {...field} className="w-full h-10 rounded-md bg-app-surface-2 border border-app-border-2 text-app-text px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#24AE7C]">
                   <option value="">Select blood group</option>
                   {bloodGroups.map(bg => <option key={bg} value={bg}>{bg}</option>)}
                 </select>
@@ -105,9 +106,9 @@ export default function PatientProfileForm({ defaultValues }: Props) {
 
           <FormField control={form.control} name="gender" render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Gender</FormLabel>
+              <FormLabel className="text-app-muted">Gender</FormLabel>
               <FormControl>
-                <select {...field} className="w-full h-10 rounded-md bg-[#1A1D21] border border-[#363A3D] text-white px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#24AE7C]">
+                <select {...field} className="w-full h-10 rounded-md bg-app-surface-2 border border-app-border-2 text-app-text px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#24AE7C]">
                   <option value="">Select gender</option>
                   {genders.map(g => <option key={g} value={g}>{g}</option>)}
                 </select>
@@ -118,9 +119,9 @@ export default function PatientProfileForm({ defaultValues }: Props) {
 
           <FormField control={form.control} name="address" render={({ field }) => (
             <FormItem className="sm:col-span-2">
-              <FormLabel className="text-[#ABB8C4]">Address</FormLabel>
+              <FormLabel className="text-app-muted">Address</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Your full address" className="bg-[#1A1D21] border-[#363A3D] text-white placeholder:text-[#76828D] focus-visible:ring-[#24AE7C]" />
+                <Input {...field} placeholder="Your full address" className="bg-app-surface-2 border-app-border-2 text-app-text placeholder:text-app-subtle focus-visible:ring-[#24AE7C]" />
               </FormControl>
               <FormMessage className="text-red-400 text-sm" />
             </FormItem>

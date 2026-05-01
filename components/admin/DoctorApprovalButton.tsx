@@ -23,7 +23,7 @@ export default function DoctorApprovalButton({ userId, isApproved }: { userId: s
         <span className="flex items-center gap-1.5 text-xs text-[#24AE7C] bg-[#24AE7C]/10 border border-[#24AE7C]/20 rounded-full px-3 py-1 font-medium">
           <CheckCircle size={13} /> Approved
         </span>
-        <button onClick={() => handle("reject")} disabled={loading} className="text-xs text-[#76828D] hover:text-red-400 border border-[#1E2124] hover:border-red-500/20 px-2.5 py-1 rounded-lg transition-colors cursor-pointer">
+        <button onClick={() => handle("reject")} disabled={loading} className="text-xs text-app-subtle hover:text-red-400 border border-app-border hover:border-red-500/20 px-2.5 py-1 rounded-lg transition-colors cursor-pointer">
           {loading ? "..." : "Revoke"}
         </button>
       </div>

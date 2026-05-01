@@ -49,7 +49,7 @@ export default function DoctorProfileForm({ defaultValues }: Props) {
     setLoading(false);
   }
 
-  const inputCls = "bg-[#1A1D21] border-[#363A3D] text-white placeholder:text-[#76828D] focus-visible:ring-[#24AE7C]";
+  const inputCls = "bg-app-surface-2 border-app-border-2 text-app-text placeholder:text-app-subtle focus-visible:ring-[#24AE7C]";
 
   return (
     <Form {...form}>
@@ -57,7 +57,7 @@ export default function DoctorProfileForm({ defaultValues }: Props) {
         <div className="grid sm:grid-cols-2 gap-5">
           <FormField control={form.control} name="specialty" render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Specialty</FormLabel>
+              <FormLabel className="text-app-muted">Specialty</FormLabel>
               <FormControl><Input {...field} placeholder="e.g. Cardiologist" className={inputCls} /></FormControl>
               <FormMessage className="text-red-400 text-sm" />
             </FormItem>
@@ -65,7 +65,7 @@ export default function DoctorProfileForm({ defaultValues }: Props) {
 
           <FormField control={form.control} name="qualifications" render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Qualifications</FormLabel>
+              <FormLabel className="text-app-muted">Qualifications</FormLabel>
               <FormControl><Input {...field} placeholder="e.g. MBBS, MD" className={inputCls} /></FormControl>
               <FormMessage className="text-red-400 text-sm" />
             </FormItem>
@@ -73,7 +73,7 @@ export default function DoctorProfileForm({ defaultValues }: Props) {
 
           <FormField control={form.control} name="consultationFee" render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Consultation Fee ($)</FormLabel>
+              <FormLabel className="text-app-muted">Consultation Fee ($)</FormLabel>
               <FormControl><Input {...field} type="number" min={0} className={inputCls} /></FormControl>
               <FormMessage className="text-red-400 text-sm" />
             </FormItem>
@@ -81,7 +81,7 @@ export default function DoctorProfileForm({ defaultValues }: Props) {
 
           <FormField control={form.control} name="experience" render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[#ABB8C4]">Experience (years)</FormLabel>
+              <FormLabel className="text-app-muted">Experience (years)</FormLabel>
               <FormControl><Input {...field} type="number" min={0} className={inputCls} /></FormControl>
               <FormMessage className="text-red-400 text-sm" />
             </FormItem>
@@ -89,9 +89,9 @@ export default function DoctorProfileForm({ defaultValues }: Props) {
 
           <FormField control={form.control} name="bio" render={({ field }) => (
             <FormItem className="sm:col-span-2">
-              <FormLabel className="text-[#ABB8C4]">Bio</FormLabel>
+              <FormLabel className="text-app-muted">Bio</FormLabel>
               <FormControl>
-                <textarea {...field} rows={3} placeholder="Tell patients about yourself..." className="w-full rounded-md bg-[#1A1D21] border border-[#363A3D] text-white placeholder:text-[#76828D] px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#24AE7C] resize-none" />
+                <textarea {...field} rows={3} placeholder="Tell patients about yourself..." className="w-full rounded-md bg-app-surface-2 border border-app-border-2 text-app-text placeholder:text-app-subtle px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#24AE7C] resize-none" />
               </FormControl>
               <FormMessage className="text-red-400 text-sm" />
             </FormItem>
@@ -101,7 +101,7 @@ export default function DoctorProfileForm({ defaultValues }: Props) {
         {/* Available Days */}
         <FormField control={form.control} name="availableDays" render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-[#ABB8C4]">Available Days</FormLabel>
+            <FormLabel className="text-app-muted">Available Days</FormLabel>
             <FormControl>
               <div className="flex flex-wrap gap-2">
                 {DAYS.map(day => {
@@ -115,7 +115,7 @@ export default function DoctorProfileForm({ defaultValues }: Props) {
                         field.onChange(newVal);
                       }}
                       className={`text-sm px-4 py-2 rounded-xl border-2 transition-all cursor-pointer ${
-                        selected ? "border-[#24AE7C] bg-[#24AE7C]/10 text-[#24AE7C]" : "border-[#1E2124] text-[#ABB8C4] hover:border-[#363A3D]"
+                        selected ? "border-[#24AE7C] bg-[#24AE7C]/10 text-[#24AE7C]" : "border-app-border text-app-muted hover:border-app-border-2"
                       }`}
                     >
                       {day.slice(0, 3)}

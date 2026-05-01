@@ -1,8 +1,9 @@
 "use server";
 
 import { prisma } from "@/lib/db";
-import { hash } from "bcryptjs";
+import { hash, compare } from "bcryptjs";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
 export async function registerUser(formData: {
   name: string;
@@ -32,4 +33,35 @@ export async function registerUser(formData: {
   });
 
   redirect("/login?registered=true");
+}
+
+export async function updateUserAvatar(imageUrl: string) {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Unauthorized" };
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: { image: imageUrl },
+  });
+  return { success: true };
+}
+
+export async function changePassword(data: {
+  currentPassword: string;
+  newPassword: string;
+}) {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Unauthorized" };
+
+  const user = await prisma.user.findUnique({ where: { id: session.user.id } });
+  if (!user?.password) return { error: "No password set on this account" };
+
+  const valid = await compare(data.currentPassword, user.password);
+  if (!valid) return { error: "Current password is incorrect" };
+
+  const hashed = await hash(data.newPassword, 12);
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: { password: hashed },
+  });
+  return { success: true };
 }

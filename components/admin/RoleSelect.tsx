@@ -20,7 +20,7 @@ export default function RoleSelect({ userId, currentRole }: { userId: string; cu
       defaultValue={currentRole}
       onChange={handleChange}
       disabled={loading}
-      className="bg-[#0D0F10] border border-[#363A3D] text-white text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#24AE7C] cursor-pointer disabled:opacity-50"
+      className="bg-app-bg border border-app-border-2 text-app-text text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#24AE7C] cursor-pointer disabled:opacity-50"
     >
       <option value="PATIENT">PATIENT</option>
       <option value="DOCTOR">DOCTOR</option>

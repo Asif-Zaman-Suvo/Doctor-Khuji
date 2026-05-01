@@ -1,81 +1,38 @@
-"use client";
+import { auth } from "@/auth";
+import { prisma } from "@/lib/db";
+import { AvatarUpload } from "@/components/ui/avatar-upload";
+import { ChangePasswordForm } from "@/components/ui/change-password-form";
+import DoctorSettingsInfoForm from "@/components/doctor/DoctorSettingsInfoForm";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { updateDoctorUserInfo } from "@/app/actions/doctor";
-import { CheckCircle, Settings } from "lucide-react";
-
-const schema = z.object({
-  name: z.string().min(2, "Name required"),
-  phone: z.string().optional(),
-});
-
-export default function DoctorSettingsPage() {
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: { name: "", phone: "" },
-  });
-
-  async function onSubmit(values: z.infer<typeof schema>) {
-    setLoading(true);
-    setSuccess(false);
-    await updateDoctorUserInfo(values);
-    setSuccess(true);
-    setLoading(false);
-  }
-
-  const inputCls = "bg-[#1A1D21] border-[#363A3D] text-white placeholder:text-[#76828D] focus-visible:ring-[#24AE7C]";
+export default async function DoctorSettingsPage() {
+  const session = await auth();
+  const userId = session?.user?.id!;
+  const user = await prisma.user.findUnique({ where: { id: userId } });
 
   return (
     <div className="p-8 max-w-2xl space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-white">Account Settings</h1>
-        <p className="text-[#ABB8C4] mt-1">Update your personal information</p>
+        <h1 className="text-2xl font-bold text-app-text">Account Settings</h1>
+        <p className="text-app-muted mt-1">Update your personal information and password</p>
       </div>
 
-      <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl p-6 space-y-5">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-xl bg-[#24AE7C]/10 flex items-center justify-center">
-            <Settings size={20} className="text-[#24AE7C]" />
-          </div>
-          <h2 className="text-base font-semibold text-white">Personal Information</h2>
+      {/* Avatar */}
+      <div className="bg-app-surface border border-app-border rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6">
+        <AvatarUpload currentImage={user?.image} name={user?.name} size={96} />
+        <div>
+          <p className="text-base font-semibold text-app-text">{user?.name}</p>
+          <p className="text-sm text-app-subtle">{user?.email}</p>
+          <span className="mt-1 inline-block text-xs bg-blue-500/10 text-blue-500 border border-blue-500/20 rounded-full px-3 py-0.5 font-medium">DOCTOR</span>
         </div>
-
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-            <FormField control={form.control} name="name" render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-[#ABB8C4]">Full Name</FormLabel>
-                <FormControl><Input {...field} className={inputCls} /></FormControl>
-                <FormMessage className="text-red-400 text-sm" />
-              </FormItem>
-            )} />
-            <FormField control={form.control} name="phone" render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-[#ABB8C4]">Phone</FormLabel>
-                <FormControl><Input {...field} placeholder="+880..." className={inputCls} /></FormControl>
-                <FormMessage className="text-red-400 text-sm" />
-              </FormItem>
-            )} />
-            {success && (
-              <div className="flex items-center gap-2 bg-[#24AE7C]/10 border border-[#24AE7C]/30 rounded-xl px-4 py-3 text-sm text-[#24AE7C]">
-                <CheckCircle size={16} /> Settings saved!
-              </div>
-            )}
-            <Button type="submit" disabled={loading} className="bg-[#24AE7C] hover:bg-[#1d9268] text-white font-semibold px-8 cursor-pointer">
-              {loading ? "Saving..." : "Save Changes"}
-            </Button>
-          </form>
-        </Form>
       </div>
+
+      {/* Personal info form */}
+      <DoctorSettingsInfoForm
+        defaultValues={{ name: user?.name ?? "", phone: user?.phone ?? "" }}
+      />
+
+      {/* Change password */}
+      <ChangePasswordForm />
     </div>
   );
 }

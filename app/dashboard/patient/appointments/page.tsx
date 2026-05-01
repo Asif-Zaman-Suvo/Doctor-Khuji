@@ -31,8 +31,8 @@ export default async function PatientAppointmentsPage() {
     <div className="p-8 space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">My Appointments</h1>
-          <p className="text-[#ABB8C4] mt-1">{upcoming.length} upcoming, {past.length} past</p>
+          <h1 className="text-2xl font-bold text-app-text">My Appointments</h1>
+          <p className="text-app-muted mt-1">{upcoming.length} upcoming, {past.length} past</p>
         </div>
         <Link
           href="/dashboard/patient/appointments/new"
@@ -44,8 +44,8 @@ export default async function PatientAppointmentsPage() {
 
       {appointments.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 gap-4">
-          <CalendarDays size={48} className="text-[#363A3D]" />
-          <p className="text-[#76828D]">No appointments yet.</p>
+          <CalendarDays size={48} className="text-app-border-2" />
+          <p className="text-app-subtle">No appointments yet.</p>
           <Link href="/dashboard/patient/appointments/new" className="text-sm text-[#24AE7C] hover:underline font-medium">
             Book your first appointment →
           </Link>
@@ -54,7 +54,7 @@ export default async function PatientAppointmentsPage() {
         <div className="space-y-8">
           {upcoming.length > 0 && (
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-white">Upcoming</h2>
+              <h2 className="text-lg font-semibold text-app-text">Upcoming</h2>
               <div className="space-y-3">
                 {upcoming.map(appt => (
                   <AppointmentCard key={appt.id} appt={appt} showCancel />
@@ -64,7 +64,7 @@ export default async function PatientAppointmentsPage() {
           )}
           {past.length > 0 && (
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-white">Past</h2>
+              <h2 className="text-lg font-semibold text-app-text">Past</h2>
               <div className="space-y-3">
                 {past.map(appt => (
                   <AppointmentCard key={appt.id} appt={appt} showCancel={false} />
@@ -80,8 +80,8 @@ export default async function PatientAppointmentsPage() {
 
 function AppointmentCard({ appt, showCancel }: { appt: any; showCancel: boolean }) {
   return (
-    <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl p-5 flex items-center gap-4">
-      <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 border border-[#1E2124]">
+    <div className="bg-app-surface border border-app-border rounded-2xl p-5 flex items-center gap-4">
+      <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 border border-app-border">
         {appt.doctor.image
           ? <Image src={appt.doctor.image} alt={appt.doctor.name ?? ""} fill className="object-cover" />
           : <div className="w-full h-full bg-[#24AE7C]/10 flex items-center justify-center"><Stethoscope size={20} className="text-[#24AE7C]" /></div>
@@ -89,13 +89,13 @@ function AppointmentCard({ appt, showCancel }: { appt: any; showCancel: boolean 
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="font-semibold text-white">{appt.doctor.name}</p>
+        <p className="font-semibold text-app-text">{appt.doctor.name}</p>
         <p className="text-sm text-[#24AE7C]">{appt.doctor.doctorProfile?.specialty}</p>
-        <div className="flex items-center gap-4 mt-1.5 text-xs text-[#76828D]">
+        <div className="flex items-center gap-4 mt-1.5 text-xs text-app-subtle">
           <span className="flex items-center gap-1"><CalendarDays size={12} />{new Date(appt.date).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</span>
           <span className="flex items-center gap-1"><Clock size={12} />{appt.timeSlot}</span>
         </div>
-        {appt.reason && <p className="text-xs text-[#76828D] mt-1 truncate">Reason: {appt.reason}</p>}
+        {appt.reason && <p className="text-xs text-app-subtle mt-1 truncate">Reason: {appt.reason}</p>}
       </div>
 
       <div className="flex items-center gap-3 shrink-0">

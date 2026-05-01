@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { ShieldCheck, Users, Stethoscope, CalendarDays } from "lucide-react";
+import { AvatarUpload } from "@/components/ui/avatar-upload";
+import { ChangePasswordForm } from "@/components/ui/change-password-form";
 
 export default async function AdminSettingsPage() {
   const session = await auth();
@@ -15,41 +17,40 @@ export default async function AdminSettingsPage() {
   return (
     <div className="p-8 max-w-3xl space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-white">Admin Settings</h1>
-        <p className="text-[#ABB8C4] mt-1">Portal configuration and account overview</p>
+        <h1 className="text-2xl font-bold text-app-text">Admin Settings</h1>
+        <p className="text-app-muted mt-1">Portal configuration and account management</p>
       </div>
 
-      {/* Admin account */}
-      <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl p-6 space-y-4">
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-purple-500/10 flex items-center justify-center">
-            <span className="text-purple-400 text-2xl font-bold">{user?.name?.charAt(0).toUpperCase()}</span>
-          </div>
-          <div>
-            <p className="text-lg font-semibold text-white">{user?.name}</p>
-            <p className="text-sm text-[#76828D]">{user?.email}</p>
-            <span className="text-xs bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-full px-3 py-0.5 font-medium">ADMIN</span>
-          </div>
+      {/* Admin account + avatar */}
+      <div className="bg-app-surface border border-app-border rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6">
+        <AvatarUpload currentImage={user?.image} name={user?.name} size={96} />
+        <div>
+          <p className="text-lg font-semibold text-app-text">{user?.name}</p>
+          <p className="text-sm text-app-subtle">{user?.email}</p>
+          <span className="mt-1 inline-block text-xs bg-purple-500/10 text-purple-500 border border-purple-500/20 rounded-full px-3 py-0.5 font-medium">ADMIN</span>
         </div>
       </div>
 
+      {/* Change password */}
+      <ChangePasswordForm />
+
       {/* Platform Stats */}
-      <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl p-6 space-y-4">
-        <h2 className="text-base font-semibold text-white flex items-center gap-2">
+      <div className="bg-app-surface border border-app-border rounded-2xl p-6 space-y-4">
+        <h2 className="text-base font-semibold text-app-text flex items-center gap-2">
           <ShieldCheck size={18} className="text-[#24AE7C]" /> Platform Overview
         </h2>
         <div className="grid grid-cols-3 gap-4">
           {[
-            { label: "Total Users", value: totalUsers, icon: Users, color: "text-blue-400" },
-            { label: "Doctors", value: totalDoctors, icon: Stethoscope, color: "text-purple-400" },
+            { label: "Total Users", value: totalUsers, icon: Users, color: "text-blue-500" },
+            { label: "Doctors", value: totalDoctors, icon: Stethoscope, color: "text-purple-500" },
             { label: "Appointments", value: totalAppointments, icon: CalendarDays, color: "text-[#24AE7C]" },
           ].map(s => {
             const Icon = s.icon;
             return (
-              <div key={s.label} className="bg-[#0D0F10] rounded-xl p-4 text-center space-y-2">
+              <div key={s.label} className="bg-app-bg rounded-xl p-4 text-center space-y-2">
                 <Icon size={20} className={`mx-auto ${s.color}`} />
-                <p className="text-2xl font-bold text-white">{s.value}</p>
-                <p className="text-xs text-[#76828D]">{s.label}</p>
+                <p className="text-2xl font-bold text-app-text">{s.value}</p>
+                <p className="text-xs text-app-subtle">{s.label}</p>
               </div>
             );
           })}
@@ -57,8 +58,8 @@ export default async function AdminSettingsPage() {
       </div>
 
       {/* Portal Config */}
-      <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl p-6 space-y-4">
-        <h2 className="text-base font-semibold text-white">Portal Configuration</h2>
+      <div className="bg-app-surface border border-app-border rounded-2xl p-6 space-y-4">
+        <h2 className="text-base font-semibold text-app-text">Portal Configuration</h2>
         <div className="space-y-3">
           {[
             { label: "Portal Name", value: "DoctorKhuji" },
@@ -67,9 +68,9 @@ export default async function AdminSettingsPage() {
             { label: "ORM", value: "Prisma v7" },
             { label: "Framework", value: "Next.js 15 (App Router)" },
           ].map(item => (
-            <div key={item.label} className="flex items-center justify-between py-2.5 border-b border-[#1E2124] last:border-0">
-              <span className="text-sm text-[#ABB8C4]">{item.label}</span>
-              <span className="text-sm text-white font-medium">{item.value}</span>
+            <div key={item.label} className="flex items-center justify-between py-2.5 border-b border-app-border last:border-0">
+              <span className="text-sm text-app-muted">{item.label}</span>
+              <span className="text-sm text-app-text font-medium">{item.value}</span>
             </div>
           ))}
         </div>

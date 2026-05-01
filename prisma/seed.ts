@@ -57,18 +57,26 @@ const doctors = [
 ];
 
 async function main() {
-  const adminPassword = await hash("Admin@1234", 12);
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminPass = process.env.ADMIN_PASSWORD;
+  const adminName = process.env.ADMIN_NAME ?? "Admin";
+
+  if (!adminEmail || !adminPass) {
+    throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD must be set in .env.local");
+  }
+
+  const adminPassword = await hash(adminPass, 12);
   await prisma.user.upsert({
-    where: { email: "admin@portal.com" },
-    update: {},
+    where: { email: adminEmail },
+    update: { role: "ADMIN", password: adminPassword, name: adminName },
     create: {
-      name: "Admin",
-      email: "admin@portal.com",
+      name: adminName,
+      email: adminEmail,
       password: adminPassword,
       role: "ADMIN",
     },
   });
-  console.log("✅ Admin seeded");
+  console.log(`✅ Admin seeded: ${adminEmail}`);
 
   const doctorPassword = await hash("Doctor@1234", 12);
   for (const doc of doctors) {

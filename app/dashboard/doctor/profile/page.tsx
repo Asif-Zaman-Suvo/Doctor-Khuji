@@ -21,8 +21,8 @@ export default async function DoctorProfilePage() {
   return (
     <div className="p-8 max-w-3xl space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-white">My Profile</h1>
-        <p className="text-[#ABB8C4] mt-1">Complete your profile to start accepting patients.</p>
+        <h1 className="text-2xl font-bold text-app-text">My Profile</h1>
+        <p className="text-app-muted mt-1">Complete your profile to start accepting patients.</p>
       </div>
 
       {/* Approval Status Banner */}
@@ -31,7 +31,7 @@ export default async function DoctorProfilePage() {
           <CheckCircle size={18} className="text-[#24AE7C]" />
           <div>
             <p className="text-sm font-semibold text-[#24AE7C]">Profile Approved</p>
-            <p className="text-xs text-[#76828D]">Your profile is live and visible to patients.</p>
+            <p className="text-xs text-app-subtle">Your profile is live and visible to patients.</p>
           </div>
         </div>
       ) : (
@@ -39,20 +39,20 @@ export default async function DoctorProfilePage() {
           <AlertCircle size={18} className="text-yellow-400" />
           <div>
             <p className="text-sm font-semibold text-yellow-400">Pending Admin Approval</p>
-            <p className="text-xs text-[#76828D]">Complete your profile and submit — admin will review.</p>
+            <p className="text-xs text-app-subtle">Complete your profile and submit — admin will review.</p>
           </div>
         </div>
       )}
 
       {/* Form */}
-      <div className="bg-[#161A1F] border border-[#1E2124] rounded-2xl p-6 space-y-4">
+      <div className="bg-app-surface border border-app-border rounded-2xl p-6 space-y-4">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
             <Stethoscope size={20} className="text-blue-400" />
           </div>
           <div>
-            <h2 className="text-base font-semibold text-white">Professional Details</h2>
-            <p className="text-xs text-[#76828D]">Specialty, qualifications, fee, and availability</p>
+            <h2 className="text-base font-semibold text-app-text">Professional Details</h2>
+            <p className="text-xs text-app-subtle">Specialty, qualifications, fee, and availability</p>
           </div>
         </div>
         <DoctorProfileForm defaultValues={defaultValues} />
