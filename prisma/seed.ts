@@ -76,7 +76,6 @@ async function main() {
       role: "ADMIN",
     },
   });
-  console.log(`✅ Admin seeded: ${adminEmail}`);
 
   const doctorPassword = await hash("Doctor@1234", 12);
   for (const doc of doctors) {
