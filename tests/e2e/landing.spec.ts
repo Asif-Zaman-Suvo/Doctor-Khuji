@@ -4,7 +4,7 @@ test.describe("Landing page", () => {
   test("loads and shows key content", async ({ page }) => {
     await page.goto("/");
     await expect(page).toHaveTitle(/DoctorKhuji/i);
-    await expect(page.getByRole("heading", { name: /your health/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Your Health, Our Priority" })).toBeVisible();
     await expect(page.getByRole("link", { name: /get started/i }).first()).toBeVisible();
   });
 
@@ -17,15 +17,15 @@ test.describe("Landing page", () => {
   test("features section is visible", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("link", { name: /features/i }).first().click();
-    await expect(page.getByText(/easy scheduling/i)).toBeVisible();
-    await expect(page.getByText(/verified doctors/i)).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Easy Scheduling" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Verified Doctors" })).toBeVisible();
   });
 
   test("how it works section shows 3 steps", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByText("01")).toBeVisible();
-    await expect(page.getByText("02")).toBeVisible();
-    await expect(page.getByText("03")).toBeVisible();
+    await expect(page.getByText("01", { exact: true })).toBeVisible();
+    await expect(page.getByText("02", { exact: true })).toBeVisible();
+    await expect(page.getByText("03", { exact: true })).toBeVisible();
   });
 
   test("CTA buttons navigate to register", async ({ page }) => {
