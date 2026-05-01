@@ -4,6 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { CalendarDays, Clock, Plus, Stethoscope } from "lucide-react";
 import CancelButton from "./CancelButton";
+import type { Prisma } from "@/lib/generated/prisma/client";
+
+type AppointmentWithDoctor = Prisma.AppointmentGetPayload<{
+  include: { doctor: { include: { doctorProfile: true } } };
+}>;
 
 const statusStyles: Record<string, string> = {
   PENDING:   "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
@@ -14,7 +19,7 @@ const statusStyles: Record<string, string> = {
 
 export default async function PatientAppointmentsPage() {
   const session = await auth();
-  const userId = session?.user?.id!;
+  const userId = session?.user?.id ?? "";
 
   const appointments = await prisma.appointment.findMany({
     where: { patientId: userId },
@@ -78,7 +83,7 @@ export default async function PatientAppointmentsPage() {
   );
 }
 
-function AppointmentCard({ appt, showCancel }: { appt: any; showCancel: boolean }) {
+function AppointmentCard({ appt, showCancel }: { appt: AppointmentWithDoctor; showCancel: boolean }) {
   return (
     <div className="bg-app-surface border border-app-border rounded-2xl p-5 flex items-center gap-4">
       <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 border border-app-border">

@@ -6,7 +6,7 @@ import DoctorSettingsInfoForm from "@/components/doctor/DoctorSettingsInfoForm";
 
 export default async function DoctorSettingsPage() {
   const session = await auth();
-  const userId = session?.user?.id!;
+  const userId = session?.user?.id ?? "";
   const user = await prisma.user.findUnique({ where: { id: userId } });
 
   return (

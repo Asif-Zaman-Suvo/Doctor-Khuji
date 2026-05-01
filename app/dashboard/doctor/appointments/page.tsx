@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
-import Image from "next/image";
-import { CalendarDays, Clock, UserRound } from "lucide-react";
+import { CalendarDays, Clock } from "lucide-react";
 import AppointmentActionButton from "@/components/doctor/AppointmentActionButton";
 import Link from "next/link";
 
@@ -14,7 +13,7 @@ const statusStyles: Record<string, string> = {
 
 export default async function DoctorAppointmentsPage() {
   const session = await auth();
-  const userId = session?.user?.id!;
+  const userId = session?.user?.id ?? "";
 
   const appointments = await prisma.appointment.findMany({
     where: { doctorId: userId },

@@ -2,7 +2,7 @@ import { prisma } from "@/lib/db";
 import { auth } from "@/auth";
 import RoleSelect from "@/components/admin/RoleSelect";
 import DeleteUserButton from "@/components/admin/DeleteUserButton";
-import { Users, Search } from "lucide-react";
+import { Search } from "lucide-react";
 
 const roleColors: Record<string, string> = {
   ADMIN: "bg-purple-500/20 text-purple-400",

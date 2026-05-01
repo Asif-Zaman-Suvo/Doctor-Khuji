@@ -2,6 +2,11 @@ import { prisma } from "@/lib/db";
 import Image from "next/image";
 import DoctorApprovalButton from "@/components/admin/DoctorApprovalButton";
 import { Stethoscope, Star, DollarSign, CalendarDays, UserPlus } from "lucide-react";
+import type { Prisma } from "@/lib/generated/prisma/client";
+
+type DoctorWithProfile = Prisma.UserGetPayload<{
+  include: { doctorProfile: true; _count: { select: { doctorAppointments: true } } };
+}>;
 
 export default async function AdminDoctorsPage() {
   const doctors = await prisma.user.findMany({
@@ -63,7 +68,7 @@ export default async function AdminDoctorsPage() {
   );
 }
 
-function DoctorCard({ doc }: { doc: any }) {
+function DoctorCard({ doc }: { doc: DoctorWithProfile }) {
   return (
     <div className="bg-app-surface border border-app-border rounded-2xl p-5 flex items-center gap-4">
       <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 border border-app-border">

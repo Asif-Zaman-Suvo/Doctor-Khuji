@@ -6,7 +6,7 @@ import { ChangePasswordForm } from "@/components/ui/change-password-form";
 
 export default async function AdminSettingsPage() {
   const session = await auth();
-  const user = await prisma.user.findUnique({ where: { id: session?.user?.id! } });
+  const user = await prisma.user.findUnique({ where: { id: session?.user?.id ?? "" } });
 
   const [totalUsers, totalDoctors, totalAppointments] = await Promise.all([
     prisma.user.count(),

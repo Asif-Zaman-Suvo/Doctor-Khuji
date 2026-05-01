@@ -5,7 +5,7 @@ import { Stethoscope, CheckCircle, AlertCircle } from "lucide-react";
 
 export default async function DoctorProfilePage() {
   const session = await auth();
-  const userId = session?.user?.id!;
+  const userId = session?.user?.id ?? "";
 
   const profile = await prisma.doctorProfile.findUnique({ where: { userId } });
 

@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
-import { UserRound, CalendarDays } from "lucide-react";
+import { UserRound } from "lucide-react";
 
 export default async function DoctorPatientsPage() {
   const session = await auth();
-  const userId = session?.user?.id!;
+  const userId = session?.user?.id ?? "";
 
   const appointments = await prisma.appointment.findMany({
     where: { doctorId: userId, status: { not: "CANCELLED" } },

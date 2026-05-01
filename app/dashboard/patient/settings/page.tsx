@@ -7,7 +7,7 @@ import { ShieldCheck } from "lucide-react";
 
 export default async function PatientSettingsPage() {
   const session = await auth();
-  const userId = session?.user?.id!;
+  const userId = session?.user?.id ?? "";
 
   const [user, profile] = await Promise.all([
     prisma.user.findUnique({ where: { id: userId } }),

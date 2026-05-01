@@ -7,7 +7,7 @@ export default async function PatientRecordsPage() {
 
   const appointments = await prisma.appointment.findMany({
     where: {
-      patientId: session?.user?.id!,
+      patientId: session?.user?.id ?? "",
       status: "COMPLETED",
     },
     include: { doctor: { include: { doctorProfile: true } } },
