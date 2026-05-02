@@ -61,10 +61,13 @@ export default function Sidebar({ role, name, email }: SidebarProps) {
   return (
     <aside className="w-64 shrink-0 flex flex-col h-screen bg-app-surface border-r border-app-border sticky top-0 shadow-sm">
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-6 py-5 border-b border-app-border">
-        <Image src="/assets/icons/logo-icon.svg" alt="logo" width={32} height={32} />
+      <Link
+        href="/"
+        className="flex items-center gap-2.5 px-6 py-5 border-b border-app-border hover:bg-app-surface-2/80 transition-colors cursor-pointer"
+      >
+        <Image src="/assets/icons/logo-icon.svg" alt="DoctorKhuji home" width={32} height={32} />
         <span className="text-lg font-bold text-app-text">DoctorKhuji</span>
-      </div>
+      </Link>
 
       {/* Role Badge */}
       <div className="px-6 py-4">

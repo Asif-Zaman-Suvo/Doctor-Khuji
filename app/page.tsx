@@ -76,10 +76,10 @@ export default async function HomePage() {
       {/* ── Navbar ── */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-app-bg/90 backdrop-blur-md border-b border-app-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between relative">
-          <div className="flex items-center gap-2.5">
-            <Image src="/assets/icons/logo-icon.svg" alt="logo" width={34} height={34} />
+          <Link href="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity cursor-pointer">
+            <Image src="/assets/icons/logo-icon.svg" alt="DoctorKhuji home" width={34} height={34} />
             <span className="text-lg font-bold text-app-text">DoctorKhuji</span>
-          </div>
+          </Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-app-muted">
             <a href="#features" className="hover:text-app-text transition-colors">Features</a>
             <a href="#doctors" className="hover:text-app-text transition-colors">Doctors</a>
@@ -379,10 +379,10 @@ export default async function HomePage() {
       {/* ── Footer ── */}
       <footer className="border-t border-app-border py-8 sm:py-10 px-4 sm:px-6 bg-app-bg">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-          <div className="flex items-center gap-2">
-            <Image src="/assets/icons/logo-icon.svg" alt="logo" width={28} height={28} />
+          <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity cursor-pointer">
+            <Image src="/assets/icons/logo-icon.svg" alt="DoctorKhuji home" width={28} height={28} />
             <span className="font-bold text-app-text">DoctorKhuji</span>
-          </div>
+          </Link>
           <p className="text-sm text-app-subtle">© 2026 DoctorKhuji. All rights reserved.</p>
           <div className="flex items-center gap-6 text-sm text-app-subtle">
             <a href="#" className="hover:text-app-text transition-colors">Privacy</a>

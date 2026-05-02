@@ -1,5 +1,6 @@
 import RegisterForm from "@/components/forms/RegisterForm";
 import Image from "next/image";
+import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export default function RegisterPage() {
@@ -9,10 +10,13 @@ export default function RegisterPage() {
       <div className="flex-1 flex flex-col justify-between py-10 px-8 md:px-16 lg:px-24 max-w-2xl overflow-y-auto bg-app-surface card-shadow">
         <div>
           <div className="flex items-center justify-between mb-12">
-            <div className="flex items-center gap-2">
-              <Image src="/assets/icons/logo-icon.svg" alt="logo" width={38} height={38} />
+            <Link
+              href="/"
+              className="flex items-center gap-2 hover:opacity-90 transition-opacity cursor-pointer"
+            >
+              <Image src="/assets/icons/logo-icon.svg" alt="DoctorKhuji home" width={38} height={38} />
               <span className="text-xl font-bold text-app-text">DoctorKhuji</span>
-            </div>
+            </Link>
             <ThemeToggle iconOnly />
           </div>
           <RegisterForm />
