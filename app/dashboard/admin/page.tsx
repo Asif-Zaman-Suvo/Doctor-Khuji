@@ -3,6 +3,8 @@ import { prisma } from "@/lib/db";
 import { Users, Stethoscope, UserRound, Clock } from "lucide-react";
 import Image from "next/image";
 
+export const revalidate = 30; // cache page for 30 seconds
+
 async function getStats() {
   const [totalUsers, totalDoctors, totalPatients, pendingDoctors] =
     await Promise.all([
